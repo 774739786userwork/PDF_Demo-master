@@ -1,0 +1,7 @@
+#Sun Apr 29 11:50:53 CST 2018
+base.0=D\:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_44fbdd8179c4f83d9d82d9ff039d0eb25fdd8c44
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=D\:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_84170c0c9b6f57b5b50e00a45707b94055823a42\\classes.dex
+base.1=D\:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_84170c0c9b6f57b5b50e00a45707b94055823a42
+file.0=D\:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_44fbdd8179c4f83d9d82d9ff039d0eb25fdd8c44\\classes.dex

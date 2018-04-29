@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/rl_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+    <com.artifex.mupdf.ReaderView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/readerView"
+        android:layout_below="@+id/rl_top">
+
+    </com.artifex.mupdf.ReaderView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="false"
+        android:id="@+id/rl_top"
+        android:background="#097ce0">
+
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:id="@+id/rl_sign">
+
+            <RelativeLayout
+                android:id="@+id/rel_sign"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/btn_sign"
+                    android:src="@drawable/sign"
+                    android:scaleType="centerCrop"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="6dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="签名"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/btn_sign"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rl_clear"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/rl_sign"
+            android:layout_toStartOf="@+id/rl_sign"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageView3"
+                android:src="@drawable/erasure"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="重签"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/imageView3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rl_save"
+            android:layout_toLeftOf="@+id/rl_clear"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageView4"
+                android:src="@drawable/save"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="保存"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/imageView4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+<com.example.jammy.pdf_demo.SignatureView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/rl_top"
+    android:visibility="gone"
+    android:id="@+id/signView" />
+</RelativeLayout>

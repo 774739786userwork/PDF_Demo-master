@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_middle"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:id="@+id/ll_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:layout_marginLeft = "50dp"
+            android:layout_marginRight = "50dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/Login_icon_username"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/icon_username" />
+
+            <EditText
+                android:id="@+id/Login_user"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="请输入登录帐号"
+                android:singleLine="true"
+                android:background="@null"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft = "50dp"
+            android:layout_marginRight = "50dp"
+            android:padding="10dp"
+            android:layout_below="@+id/ll_user"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Login_icon_password"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/icon_password" />
+
+            <EditText
+                android:id="@+id/Login_password"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="请输入登录密码"
+                android:background="@null"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft = "40dp"
+            android:layout_marginRight = "40dp"
+            android:padding="10dp"
+            android:layout_below="@+id/ll_pwd">
+            <CheckBox
+                android:id="@+id/Login_rememberme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:drawableLeft="@drawable/checkbox_selector"
+                android:drawablePadding="10dp"
+                android:button="@null"
+                android:background="@null"
+                android:textColor="#ffffff"
+                android:text="记住密码"
+                ></CheckBox>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/rl_middle">
+
+        <TextView
+            android:id="@+id/Login_OK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_btn_bg"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="登　录"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
