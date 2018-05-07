@@ -177,10 +177,10 @@ public class WsManager {
 
     //发送消息
     public boolean sendText(SocketMessage socketMessage) {
-        if(null != ws && ws.isOpen()) {
+//        if(null != ws && ws.isOpen()) {
             Logger.t("TAG").d("wsclient sendText ="+socketMessage.getType());
             ws.sendText(socketMessage.getType());
-        }
+//        }
         return true;
     }
 

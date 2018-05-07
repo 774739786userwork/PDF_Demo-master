@@ -44,7 +44,7 @@ public class WsApplication extends Application {
 
             @Override
             public void onBecameBackground() {
-
+                Logger.t("WsManager").d("应用回到后台方法");
             }
         });
     }

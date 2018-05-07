@@ -1,5 +1,6 @@
 package com.example.jammy.pdf_demo.server;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,8 +8,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
+
+import com.example.jammy.pdf_demo.R;
 import com.example.jammy.pdf_demo.websocket.WsManager;
 import com.orhanobut.logger.Logger;
 
@@ -21,6 +26,7 @@ public class SocketService extends Service {
     private LocalBinder binder = new LocalBinder();
     //监控服务被杀死重启的广播，保持服务不被杀死
     private BroadcastReceiver restartBR;
+    PowerManager.WakeLock wakeLock = null;
     public SocketService() {
         super();
     }
@@ -33,6 +39,7 @@ public class SocketService extends Service {
     public void onCreate() {
         super.onCreate();
         Logger.t(TAG).d("onCreate()");
+        acquireWakeLock();
         WsManager.getInstance().init();
         //收到Service被杀死的广播，立即重启
         restartBR = new BroadcastReceiver() {
@@ -52,8 +59,47 @@ public class SocketService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand(Intent intent, int flags, int startId)");
+        /*WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        startForeground(1, buildForegroundNotification());*/
         return START_STICKY;//设置START_STICKY为了使服务被意外杀死后可以重启
     }
+
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    private void acquireWakeLock()
+    {
+        if (null == wakeLock)
+        {
+            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock)
+            {
+                wakeLock.acquire();
+            }
+        }
+    }
+
+    //释放设备电源锁
+    private void releaseWakeLock()
+    {
+        if (null != wakeLock)
+        {
+            wakeLock.release();
+            wakeLock = null;
+        }
+    }
+
+    /*private Notification buildForegroundNotification() {
+        Notification.Builder builder = new Notification.Builder(this);
+
+        builder.setOngoing(true);
+
+        builder.setContentTitle("11")
+                .setContentText("22")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker("33");
+        builder.setPriority(Notification.PRIORITY_MAX);
+        return builder.build();
+    }*/
 
     /**
      * 创建Binder对象，返回给客户端即Activity使用，提供数据交换的接口
@@ -82,6 +128,7 @@ public class SocketService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         Log.e(TAG, "onUnbind(Intent intent)");
+        releaseWakeLock();
         return super.onUnbind(intent);
     }
 

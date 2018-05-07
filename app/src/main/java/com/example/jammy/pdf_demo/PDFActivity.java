@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -35,7 +36,9 @@ import com.example.jammy.pdf_demo.config.Model;
 import com.example.jammy.pdf_demo.user.User;
 import com.example.jammy.pdf_demo.util.HttpPostThread;
 import com.example.jammy.pdf_demo.util.MyActivityManager;
+import com.example.jammy.pdf_demo.util.SocketActivity;
 import com.example.jammy.pdf_demo.util.ThreadPoolUtils;
+import com.example.jammy.pdf_demo.websocket.WsManager;
 
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -286,13 +289,12 @@ public class PDFActivity extends Activity {
                 PDFActivity.this.finish();
                 File file = new File(in_path);
                 if (file.exists()) file.delete();
-                MyActivityManager.getInstance().popAllActivity();
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
+                WsManager.getInstance().disconnect();
+    }}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+@Override
+public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+        }
         }).show();
     }
 
@@ -308,6 +310,7 @@ public class PDFActivity extends Activity {
             if (file2.exists() && isUpdate) file2.delete();
             save_pdf.cancel(true);
         }
+        MyActivityManager.getInstance().exitApp(PDFActivity.this);
 //        popupWindow.dismiss();
     }
 }

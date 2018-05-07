@@ -19,6 +19,7 @@ import com.example.jammy.pdf_demo.R;
 import com.example.jammy.pdf_demo.config.Model;
 import com.example.jammy.pdf_demo.server.SocketService;
 import com.example.jammy.pdf_demo.user.User;
+import com.example.jammy.pdf_demo.websocket.WsManager;
 import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
@@ -131,6 +132,7 @@ public class SocketActivity extends Activity{
                 Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();// 更新mExitTime
             } else {
+                WsManager.getInstance().disconnect();
                 MyActivityManager.getInstance().exitApp(this);
             }
             return true;
