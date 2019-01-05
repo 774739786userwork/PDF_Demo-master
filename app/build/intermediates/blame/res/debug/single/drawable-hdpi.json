@@ -12,12 +12,12 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\progress_loading_image_01.png"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\splash.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\splash.png"
-    },
-    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\icon_username.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\icon_username.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\beijing.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\beijing.png"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\mc_btn_top_unpressed.9.png",
@@ -34,10 +34,6 @@
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\mc_btn_top_pressed.9.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\mc_btn_top_pressed.9.png"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\login_background.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\login_background.png"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\checkbox_pressed.png",

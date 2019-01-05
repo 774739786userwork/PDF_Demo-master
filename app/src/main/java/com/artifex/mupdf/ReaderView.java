@@ -225,6 +225,11 @@ public class ReaderView extends AdapterView<Adapter>
     public void onLongPress(MotionEvent e) {
     }
 
+    /**
+     * 功能：扑捉屏幕手势滑动动作
+     * 用户按下触摸屏，并拖动，由1个MotionEvent ACTION_DOWN,
+     * 多个ACTION_MOVE触发。
+     * */
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
                             float distanceY) {
         if (!mScrollDisabled) {
@@ -235,18 +240,27 @@ public class ReaderView extends AdapterView<Adapter>
         return true;
     }
 
-
+    /**
+     * 用户轻触触摸屏，尚未松开或拖动，由一个1个MotionEvent ACTION_DOWN触发
+     * 注意和onDown()的区别，强调的是没有松开或者拖动的状态 .
+     * */
     public void onShowPress(MotionEvent e) {
         //Log.e("info", "-->onShowPress");
     }
-
+    /**
+     * 用户（轻触触摸屏后）松开，由一个1个MotionEvent ACTION_UP触发
+     * */
     public boolean onSingleTapUp(MotionEvent e) {
         return false;
     }
-
+    /**
+     * 处理对屏幕的缩放比例
+     * */
     public boolean onScale(ScaleGestureDetector detector) {
+        //截屏视图不显示时，手势操作可以进行
         float previousScale = getmScale();
         mScale = Math.min(Math.max(getmScale() * detector.getScaleFactor(), MIN_SCALE), MAX_SCALE);
+        //缩放比例
         scalingFactor = getmScale() / previousScale;
         View v = mChildViews.get(mCurrent);
         if (v != null) {
@@ -272,13 +286,17 @@ public class ReaderView extends AdapterView<Adapter>
         // Avoid jump at end of scaling by disabling scrolling
         // until the next start of gesture
         mScrollDisabled = true;
+        //一定要返回true才会进入onScale()这个函数
         return true;
     }
 
     public void onScaleEnd(ScaleGestureDetector detector) {
         mScaling = false;
     }
-
+    /*
+     * 在onTouch()方法中，我们调用GestureDetector的onTouchEvent()方法，将捕捉到的MotionEvent交给GestureDetector
+     * 来分析是否有合适的callback函数来处理用户的手势
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         // TODO Auto-generated method stub

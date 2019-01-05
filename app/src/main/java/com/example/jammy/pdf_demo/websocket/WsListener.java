@@ -44,7 +44,7 @@ public class WsListener extends WebSocketAdapter {
             SocketMessage sMessage = JsonUtil.parseJson(text);
             sendNotification(sMessage);
             Intent intent = new Intent(WsApplication.getContext(), MainActivity.class);
-            intent.putExtra("id",sMessage.getId());
+//            intent.putExtra("id",sMessage.getId());
             intent.putExtra("url",sMessage.getFileUrl());
             Logger.t(TAG).d(text);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

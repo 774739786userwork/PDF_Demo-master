@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -48,12 +49,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -84,7 +93,6 @@ public class PDFActivity extends Activity {
     Save_Pdf save_pdf;
     String id = "";
     String url = "";
-    private User user = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,11 +117,9 @@ public class PDFActivity extends Activity {
     }
 
     private void init(){
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(User.SHARED_NAME,MODE_PRIVATE);
-        user = User.getInstance().readFromSharedPreferences(sharedPreferences);
-        id = getIntent().getStringExtra("id");
-        url = getIntent().getStringExtra("url");
-        in_path = Environment.getExternalStorageDirectory().getPath() + "/" + url.substring(url.lastIndexOf("/") + 1);
+//        id = getIntent().getStringExtra("id");    /456.pdf
+//        url = getIntent().getStringExtra("url");
+        in_path = Environment.getExternalStorageDirectory().getPath() + "/456.pdf";//url.substring(url.lastIndexOf("/") + 1);
         out_path = in_path.substring(0, in_path.length() - 4) + "1.pdf";
         try {
             muPDFCore = new MuPDFCore(in_path);//PDF的文件路径
@@ -124,7 +130,7 @@ public class PDFActivity extends Activity {
         View view = LayoutInflater.from(this).inflate(R.layout.signature_layout, null);
         signatureView = (SignatureView) view.findViewById(R.id.qianming);
         readerView.setDisplayedViewIndex(0);
-        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
     }
 
     private void initClick(){
@@ -196,9 +202,9 @@ public class PDFActivity extends Activity {
             savePdf.addText();
             if (first == 1) {
                 update_path = in_path.substring(0, in_path.length() - 4) + ".pdf";
-                new_path = in_path.substring(0, in_path.length() - 4) + "2.pdf";
+                in_path = in_path.substring(0, in_path.length() - 4) + "2.pdf";
                 first++;
-                Log.e("tag", "完成：：：：：："+new_path);
+                Log.e("tag", "完成：：：：：："+in_path);
             }
             return null;
         }
@@ -210,26 +216,83 @@ public class PDFActivity extends Activity {
             try {
                 muPDFCore = new MuPDFCore(out_path);
                 readerView.setAdapter(new MuPDFPageAdapter(PDFActivity.this, muPDFCore));
-//                String temp = new_path;
-//                new_path = out_path;
+
+//                String temp = in_path;
+//                in_path = out_path;
 //                out_path = temp;
-                Log.e("tag", "存储完成--------"+out_path);
-                readerView.setmScale(0.0f);
+
+                readerView.setmScale(1.0f);
                 readerView.setDisplayedViewIndex(readerView.getDisplayedViewIndex());
                 progressDialog.dismiss();
-                MultipartEntity mulentity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE,null, Charset.forName("UTF-8"));
+
+                final File file = new File(out_path);
+                OkHttpClient okHttpClient = new OkHttpClient();
+                MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
+                RequestBody fileBody = RequestBody.create(MEDIA_TYPE_MARKDOWN, file);
+                RequestBody requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("balance_id", id)
+                        .addFormDataPart("files", file.getName(),fileBody).build();
+                Request request=new   Request.Builder().url(actionUrl).post(requestBody).build();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        PDFActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(PDFActivity.this,"服务器连接失败！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String responseStr = response.body().string();
+                        try {
+                            JSONObject jsonObject = new JSONObject(responseStr);
+                            int status = jsonObject.getInt("status");
+                            final String msg = jsonObject.getString("msg");
+                            if (status == 0){
+                                PDFActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(PDFActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                        rlSave.setVisibility(View.VISIBLE);
+                                        rlClear.setVisibility(View.GONE);
+                                        readerView.setVisibility(View.VISIBLE);
+                                        rlSign.setVisibility(View.GONE);
+                                    }
+                                });
+                            }else {
+                                PDFActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(PDFActivity.this,"服务器异常，保存失败，请稍后再试！", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                /*MultipartEntity mulentity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE,null, Charset.forName("UTF-8"));
                 File file = new File(out_path);
                 FileBody filebody = new FileBody(file);
                 mulentity.addPart("files",filebody);
                 mulentity.addPart("balance_id", new StringBody(id));
+                Log.e("tag", "mulentity===========>"+mulentity);
                 ThreadPoolUtils.execute(new HttpPostThread(handler,actionUrl,"utf-8",mulentity));
+                Log.e("tag", "存储完成--------"+out_path);*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    Handler handler = new Handler(){
+    /*Handler handler = new Handler(){
         public void handleMessage(Message msg) {
             if(msg.what == 404){
                 Toast.makeText(PDFActivity.this,"服务器地址错误！", Toast.LENGTH_SHORT).show();
@@ -256,9 +319,6 @@ public class PDFActivity extends Activity {
                                 rlClear.setVisibility(View.GONE);
                                 readerView.setVisibility(View.GONE);
                                 rlSign.setVisibility(View.GONE);
-                                /*Intent intent = new Intent(PDFActivity.this,SocketActivity.class);
-                                startActivity(intent);
-                                finish();*/
                             }else{
                                 Toast.makeText(PDFActivity.this,"服务器异常，保存失败，请稍后再试！", Toast.LENGTH_SHORT).show();
                             }
@@ -273,7 +333,7 @@ public class PDFActivity extends Activity {
                 }
             }
         };
-    };
+    };*/
 
     /**
      * 返回按钮，退出时删除那两个文件
@@ -287,8 +347,8 @@ public class PDFActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 //删除缓冲的存储
                 PDFActivity.this.finish();
-                File file = new File(in_path);
-                if (file.exists()) file.delete();
+//                File file = new File(in_path);
+//                if (file.exists()) file.delete();
                 WsManager.getInstance().disconnect();
     }}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 @Override
@@ -301,16 +361,16 @@ public void onClick(DialogInterface dialog, int which) {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (first != 1) {
-            File file = new File(new_path);
+//            File file = new File(new_path);
             File file1 = new File(out_path);
             File file2 = new File(update_path);
-            if (file.exists()) file.delete();
+//            if (file.exists()) file.delete();
             if (file1.exists()) file1.delete();
             if (file2.exists() && isUpdate) file2.delete();
             save_pdf.cancel(true);
         }
         MyActivityManager.getInstance().exitApp(PDFActivity.this);
-//        popupWindow.dismiss();
     }
 }

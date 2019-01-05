@@ -17,6 +17,6 @@
 
     <style name="AppThemeScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <!--解决白屏-->
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/beijing</item>
     </style>
 </resources>

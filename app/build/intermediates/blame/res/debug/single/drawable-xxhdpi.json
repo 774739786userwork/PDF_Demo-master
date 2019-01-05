@@ -8,6 +8,10 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-xxhdpi\\freshen.png"
     },
     {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\brush.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-xxhdpi\\brush.png"
+    },
+    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\logout.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-xxhdpi\\logout.png"
     },

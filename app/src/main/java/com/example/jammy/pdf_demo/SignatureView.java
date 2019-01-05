@@ -1,125 +1,299 @@
 package com.example.jammy.pdf_demo;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
-import android.graphics.Shader;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.jammy.pdf_demo.paintutil.BasePenExtend;
+import com.example.jammy.pdf_demo.paintutil.BrushPen;
+import com.example.jammy.pdf_demo.paintutil.IPenConfig;
+import com.example.jammy.pdf_demo.paintutil.SteelPen;
+
+import static com.example.jammy.pdf_demo.paintutil.IPenConfig.PEN_WIDTH;
+
 
 /**
  * 画笔设置
  * Created by bangware
  */
 public class SignatureView extends View {
-    Path path;
-    Paint paint;
-
-    private float clickX = 0, clickY = 0;
-    private float startX = 0, startY = 0;
+    private static final String TAG = "DrawPenView";
+    private Paint mPaint;//画笔
+    private Canvas mCanvas;//画布
+    private Bitmap mBitmap;
+    private Context mContext;
+    public static int mCanvasCode = IPenConfig.STROKE_TYPE_PEN;
+    private BasePenExtend mStokeBrushPen;
+    private boolean mIsCanvasDraw;
+    private int mPenconfig;
 
     public SignatureView(Context context) {
         super(context);
-        init();
+        initParameter(context);
     }
 
     public SignatureView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initParameter(context);
     }
 
     public SignatureView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        initParameter(context);
     }
 
+    private void initParameter(Context context) {
+        mContext = context;
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        mBitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, Bitmap.Config.ARGB_8888);
+        mStokeBrushPen = new SteelPen(context);
+        initPaint();
+        initCanvas();
+    }
+
+
+    private void initPaint() {
+        mPaint = new Paint();
+        mPaint.setColor(IPenConfig.PEN_CORLOUR);
+        mPaint.setStrokeWidth(PEN_WIDTH);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);//结束的笔画为圆心
+        mPaint.setStrokeJoin(Paint.Join.ROUND);//连接处元
+        mPaint.setAlpha(0xFF);
+        mPaint.setAntiAlias(true);
+        mPaint.setStrokeMiter(1.0f);
+        mStokeBrushPen.setPaint(mPaint);
+        setPenconfig(IPenConfig.STROKE_TYPE_BRUSH);
+    }
+
+    private void initCanvas() {
+        mCanvas = new Canvas(mBitmap);
+        //设置画布的颜色的问题
+        mCanvas.drawColor(Color.TRANSPARENT);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawPath(path, paint);
+//        canvas.clipRect(0, 50, 1100, 500);//控制画板的区域坐标(x,y,x+width,y+high);
+//        canvas.drawColor(Color.argb(150, 120, 120, 120));//控制画板的背景颜色
+        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+        switch (mCanvasCode) {
+            case IPenConfig.STROKE_TYPE_PEN:
+            case IPenConfig.STROKE_TYPE_BRUSH:
+                mStokeBrushPen.draw(canvas);
+                break;
+            case IPenConfig.STROKE_TYPE_ERASER:
+                reset();
+                break;
+            default:
+                Log.e(TAG, "onDraw" + Integer.toString(mCanvasCode));
+                break;
+        }
+        super.onDraw(canvas);
     }
 
+    public void setCanvasCode(int canvasCode) {
+        mCanvasCode = canvasCode;
+        switch (mCanvasCode) {
+            case IPenConfig.STROKE_TYPE_PEN:
+                mStokeBrushPen = new SteelPen(mContext);
+                break;
+            case IPenConfig.STROKE_TYPE_BRUSH:
+                mStokeBrushPen = new BrushPen(mContext);
+                break;
 
+        }
+        //设置
+        if (mStokeBrushPen.isNull()){
+            mStokeBrushPen.setPaint(mPaint);
+        }
+        invalidate();
+    }
+
+    /**
+     * event.getAction() //获取触控动作比如ACTION_DOWN
+     * event.getPointerCount(); //获取触控点的数量，比如2则可能是两个手指同时按压屏幕
+     * event.getPointerId(nID); //对于每个触控的点的细节，我们可以通过一个循环执行getPointerId方法获取索引
+     * event.getX(nID); //获取第nID个触控点的x位置,记录的第一个点为getX，getY
+     * event.getY(nID); //获取第nID个点触控的y位置
+     * event.getPressure(nID); //LCD可以感应出用户的手指压力，当然具体的级别由驱动和物理硬件决定的
+     * event.getDownTime() //按下开始时间
+     * event.getEventTime() // 事件结束时间
+     * event.getEventTime()-event.getDownTime()); //总共按下时花费时间
+     *
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        startX = event.getX();
-        startY = event.getY();
-
-        switch (event.getAction()) {
+        mIsCanvasDraw = true;
+        MotionEvent event2 = MotionEvent.obtain(event);
+        mStokeBrushPen.onTouchEvent(event2, mCanvas);
+        switch (event2.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                clickX = startX;
-                clickY = startY;
-                path.moveTo(startX, startY);
-                invalidate();
-                return true;
+                if (mGetTimeListner!=null)
+                    mGetTimeListner.stopTime();
+                break;
             case MotionEvent.ACTION_MOVE:
-                path.quadTo(clickX, clickY, (clickX + startX) / 2, (clickY + startY) / 2);
-                clickX = startX;
-                clickY = startY;
-                invalidate();
-                return true;
+                if (mGetTimeListner!=null)
+                    mGetTimeListner.stopTime();
+                break;
             case MotionEvent.ACTION_UP:
-                return true;
+                long time = System.currentTimeMillis();
+                if (mGetTimeListner!=null)
+                    mGetTimeListner.getTime(time);
+                break;
             default:
                 break;
         }
-        return super.onTouchEvent(event);
+        invalidate();
+        return true;
+    }
+    /**
+     *
+     * @return 判断是否有绘制内容在画布上
+     */
+    public boolean getHasDraw(){
+        return mIsCanvasDraw;
+    }
+    /**
+     * 清除画布，记得清除点的集合
+     */
+    public void reset() {
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        mCanvas.drawPaint(mPaint);
+        mPaint.setXfermode(null);
+        mIsCanvasDraw = false;
+        mStokeBrushPen.clear();
+        //这里处理的不太好 需要优化
+        mCanvasCode=mPenconfig;
     }
 
-    public void init() {
-        path = new Path();
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.STROKE);////////一定要设置这个才可以画直线
-        paint.setStrokeWidth(4);
-        paint.setAntiAlias(true);
+    public TimeListener mGetTimeListner;
 
-//        this.setBackgroundColor(Color.BLUE);
+    public void setGetTimeListener(TimeListener l) {
+        mGetTimeListner = l;
+    }
+
+    public Bitmap getBitmap() {
+        return mBitmap;
+    }
+
+    public void setPenconfig(int penconfig) {
+        mPenconfig = penconfig;
+    }
+
+    public int getPenConfig() {
+        return mPenconfig;
+    }
+
+    public interface TimeListener {
+        void getTime(long l);
+
+        void stopTime();
+    }
+    private int mBackColor = Color.TRANSPARENT;
+    /**
+     * 逐行扫描 清楚边界空白。功能是生成一张bitmap位于正中间，不是位于顶部，此关键的是我们画布需要
+     * 成透明色才能生效
+     * @param blank 边距留多少个像素
+     * @return tks github E-signature
+     */
+    public Bitmap clearBlank(int blank) {
+        if (mBitmap != null) {
+            int HEIGHT = mBitmap.getHeight();//1794
+            int WIDTH = mBitmap.getWidth();//1080
+            int top = 0, left = 0, right = 0, bottom = 0;
+            int[] pixs = new int[WIDTH];
+            boolean isStop;
+            for (int y = 0; y < HEIGHT; y++) {
+                mBitmap.getPixels(pixs, 0, WIDTH, 0, y, WIDTH, 1);
+                isStop = false;
+                for (int pix : pixs) {
+                    if (pix != mBackColor) {
+
+                        top = y;
+                        isStop = true;
+                        break;
+                    }
+                }
+                if (isStop) {
+                    break;
+                }
+            }
+            for (int y = HEIGHT - 1; y >= 0; y--) {
+                mBitmap.getPixels(pixs, 0, WIDTH, 0, y, WIDTH, 1);
+                isStop = false;
+                for (int pix : pixs) {
+                    if (pix != mBackColor) {
+                        bottom = y;
+                        isStop = true;
+                        break;
+                    }
+                }
+                if (isStop) {
+                    break;
+                }
+            }
+            pixs = new int[HEIGHT];
+            for (int x = 0; x < WIDTH; x++) {
+                mBitmap.getPixels(pixs, 0, 1, x, 0, 1, HEIGHT);
+                isStop = false;
+                for (int pix : pixs) {
+                    if (pix != mBackColor) {
+                        left = x;
+                        isStop = true;
+                        break;
+                    }
+                }
+                if (isStop) {
+                    break;
+                }
+            }
+            for (int x = WIDTH - 1; x > 0; x--) {
+                mBitmap.getPixels(pixs, 0, 1, x, 0, 1, HEIGHT);
+                isStop = false;
+                for (int pix : pixs) {
+                    if (pix != mBackColor) {
+                        right = x;
+                        isStop = true;
+                        break;
+                    }
+                }
+                if (isStop) {
+                    break;
+                }
+            }
+            if (blank < 0) {
+                blank = 0;
+            }
+            left = left - blank > 0 ? left - blank : 0;
+            top = top - blank > 0 ? top - blank : 0;
+            right = right + blank > WIDTH - 1 ? WIDTH - 1 : right + blank;
+            bottom = bottom + blank > HEIGHT - 1 ? HEIGHT - 1 : bottom + blank;
+            return Bitmap.createBitmap(mBitmap, left, top, right - left, bottom - top);
+        } else {
+            return null;
+        }
     }
 
     /**
      * 清空画板
      */
     public void clear() {
-        path.reset();
+        reset();
         invalidate();
-    }
-
-    private void drawLine(Canvas canvas, double x0, double y0, double w0, double x1, double y1, double w1, Paint paint) {
-        //求两个数字的平方根 x的平方+y的平方在开方记得X的平方+y的平方=1，这就是一个园
-        double curDis = Math.hypot(x0 - x1, y0 - y1);
-        int steps = 1;
-        if (paint.getStrokeWidth() < 6) {
-            steps = 1 + (int) (curDis / 2);
-        } else if (paint.getStrokeWidth() > 60) {
-            steps = 1 + (int) (curDis / 4);
-        } else {
-            steps = 1 + (int) (curDis / 3);
-        }
-        double deltaX = (x1 - x0) / steps;
-        double deltaY = (y1 - y0) / steps;
-        double deltaW = (w1 - w0) / steps;
-        double x = x0;
-        double y = y0;
-        double w = w0;
-
-        for (int i = 0; i < steps; i++) {
-            //都是用于表示坐标系中的一块矩形区域，并可以对其做一些简单操作
-            //精度不一样。Rect是使用int类型作为数值，RectF是使用float类型作为数值。
-            //            Rect rect = new Rect();
-            RectF oval = new RectF();
-            oval.set((float) (x - w / 4.0f), (float) (y - w / 2.0f), (float) (x + w / 4.0f), (float) (y + w / 2.0f));
-            // oval.set((float)(x+w/4.0f), (float)(y+w/4.0f), (float)(x-w/4.0f), (float)(y-w/4.0f));
-            //最基本的实现，通过点控制线，绘制椭圆
-            canvas.drawOval(oval, paint);
-            x += deltaX;
-            y += deltaY;
-            w += deltaW;
-        }
     }
 }

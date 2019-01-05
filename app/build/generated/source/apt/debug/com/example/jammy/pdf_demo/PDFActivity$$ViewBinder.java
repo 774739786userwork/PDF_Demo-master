@@ -8,14 +8,14 @@ import butterknife.ButterKnife.ViewBinder;
 public class PDFActivity$$ViewBinder<T extends com.example.jammy.pdf_demo.PDFActivity> implements ViewBinder<T> {
   @Override public void bind(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131492956, "field 'readerView'");
-    target.readerView = finder.castView(view, 2131492956, "field 'readerView'");
-    view = finder.findRequiredView(source, 2131492959, "field 'rlSign'");
-    target.rlSign = finder.castView(view, 2131492959, "field 'rlSign'");
-    view = finder.findRequiredView(source, 2131492961, "field 'rlClear'");
-    target.rlClear = finder.castView(view, 2131492961, "field 'rlClear'");
-    view = finder.findRequiredView(source, 2131492963, "field 'rlSave'");
-    target.rlSave = finder.castView(view, 2131492963, "field 'rlSave'");
+    view = finder.findRequiredView(source, 2131492947, "field 'readerView'");
+    target.readerView = finder.castView(view, 2131492947, "field 'readerView'");
+    view = finder.findRequiredView(source, 2131492950, "field 'rlSign'");
+    target.rlSign = finder.castView(view, 2131492950, "field 'rlSign'");
+    view = finder.findRequiredView(source, 2131492952, "field 'rlClear'");
+    target.rlClear = finder.castView(view, 2131492952, "field 'rlClear'");
+    view = finder.findRequiredView(source, 2131492954, "field 'rlSave'");
+    target.rlSave = finder.castView(view, 2131492954, "field 'rlSave'");
   }
 
   @Override public void unbind(T target) {

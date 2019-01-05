@@ -1,35 +1,46 @@
 package com.example.jammy.pdf_demo.util;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.jammy.pdf_demo.LoginActivity;
 import com.example.jammy.pdf_demo.R;
 import com.example.jammy.pdf_demo.config.Model;
+import com.example.jammy.pdf_demo.server.JsonUtil;
 import com.example.jammy.pdf_demo.server.SocketService;
-import com.example.jammy.pdf_demo.user.User;
+import com.example.jammy.pdf_demo.user.SocketMessage;
 import com.example.jammy.pdf_demo.websocket.WsManager;
 import com.orhanobut.logger.Logger;
 
-import butterknife.Bind;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SocketActivity extends Activity{
     private long mExitTime=System.currentTimeMillis();
-    @Bind(R.id.main_logout)
-    RelativeLayout mRl_logout;
-    private User user = null;
 
     private SocketService mService;
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -60,38 +71,48 @@ public class SocketActivity extends Activity{
         MyActivityManager.getInstance().pushActivity(this);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(User.SHARED_NAME,MODE_PRIVATE);
-        user = User.getInstance().readFromSharedPreferences(sharedPreferences);
 
+        initView();
         /**
          * 绑定服务
          */
         Intent intent = new Intent(this, SocketService.class);
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
-
-        initView();
     }
-
 
     private void initView() {
-        mRl_logout.setOnClickListener(new View.OnClickListener() {
+        getIMEI(getApplicationContext());
+    }
+
+    private void getPhoneNumber(String serialNumber){
+        String url = Model.HTTPURL+"mobileServiceManager/user/signOut.page?serialNumber="+serialNumber;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String format = String.format(url);
+        Log.e("tag", "format-------------: "+format);
+        Request request = new Request.Builder().url(format).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onClick(View view) {
-                clearUserCache();
-                signOut();
-                Intent intent = new Intent(SocketActivity.this,LoginActivity.class);
-                startActivity(intent);
-                MyActivityManager.getInstance().popAllActivity();
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(SocketActivity.this, "服务器接口数据请求失败！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseStr = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseStr);
+                    Log.e("tag", "getPhoneNumber: "+jsonObject.getString("status")+"================>"+jsonObject.getString("msg"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
+
+//        ThreadPoolUtils.execute(new HttpGetThread(handler,url));
     }
 
-    private void signOut(){
-        String logoutUrl = Model.HTTPURL+"mobileServiceManager/user/signOut.page?userid="+user.getUser_id()+"&token="+user.getLogin_token();
-        ThreadPoolUtils.execute(new HttpGetThread(handler,logoutUrl));
-    }
-
-    Handler handler = new Handler(){
+    /*Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             super.handleMessage(msg);
             if(msg.what == 404){
@@ -105,21 +126,53 @@ public class SocketActivity extends Activity{
                 }
             }
         };
-    };
-    /**
-     * 清除本地用户信息缓存
-     */
-    private void clearUserCache(){
-        SharedPreferences sharedPreferences = this.getSharedPreferences(User.SHARED_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putString("username", user.getUser_name());
-        editor.commit();
+    };*/
+
+    public String getIMEI(Context context)
+    {
+        TelephonyManager TelephonyMgr = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
+        String szImei = TelephonyMgr.getDeviceId();
+
+        String m_szDevIDShort = "35" + //we make this look like a valid IMEI
+                Build.BOARD.length()%10 + Build.BRAND.length()%10 +
+                Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
+                Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
+                Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
+                Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
+                Build.TAGS.length()%10 + Build.TYPE.length()%10 + Build.USER.length()%10 ; //13 digits
+
+        String m_szAndroidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+        String m_szWLANMAC = wm.getConnectionInfo().getMacAddress();
+
+        BluetoothAdapter m_BluetoothAdapter = BluetoothAdapter.getDefaultAdapter();; // Local Bluetooth adapter
+        String m_szBTMAC = m_BluetoothAdapter.getAddress();
+
+        String m_szLongID = szImei + m_szDevIDShort + m_szAndroidID+ m_szWLANMAC + m_szBTMAC;
+        // compute md5
+        MessageDigest m = null;
+        try {
+            m = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        m.update(m_szLongID.getBytes(),0,m_szLongID.length());
+        byte p_md5Data[] = m.digest();
+        String m_szUniqueID = new String();
+        for (int i=0;i<p_md5Data.length;i++) {
+            int b =  (0xFF & p_md5Data[i]);
+            if (b <= 0xF)
+                m_szUniqueID+="0";
+            m_szUniqueID+=Integer.toHexString(b);
+        }
+        m_szUniqueID = m_szUniqueID.toUpperCase();
+        getPhoneNumber(m_szUniqueID);
+        return m_szUniqueID;
     }
 
     @Override
     protected void onDestroy() {
-        Logger.t("TAG").d("onDestorty===================");
         //解绑服务
         unbindService(serviceConnection);
         super.onDestroy();
