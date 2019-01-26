@@ -148,15 +148,13 @@ public class WsManager {
         public void run() {
             if (System.currentTimeMillis() - sendTime >= HEARTBEAT_INTERVAL) {
                 SocketMessage socketMessage = new SocketMessage();
-                socketMessage.setType(user.getUser_realname());
                 if (!sendText(socketMessage)){
                     cancelHeartbeat();//取消心跳
                     disconnect();
                     reconnect();
-                    Logger.t("TAG").d("进来了.................");
                 }else {
                     //处于连接状态
-                    Logger.t("TAG").d("连接了.................");
+                    Logger.t("TAG").d("连接中");
                 }
                 sendTime = System.currentTimeMillis();//每次发送完数据，就改一下最后成功发送的时间，节省心跳间隔时间
             }
@@ -178,8 +176,8 @@ public class WsManager {
     //发送消息
     public boolean sendText(SocketMessage socketMessage) {
         if(null != ws && ws.isOpen()) {
-            Logger.t("TAG").d("wsclient sendText ="+socketMessage.getType());
-            ws.sendText(socketMessage.getType());
+            Logger.t("TAG").d("wsclient sendText ="+socketMessage.getFeature());
+            ws.sendText(socketMessage.getFeature());
         }
         return true;
     }

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff">
+
+
     <com.artifex.mupdf.ReaderView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,13 +41,15 @@
                     android:src="@drawable/sign"
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
+                    android:contentDescription="开始签名"
                     android:layout_marginTop="6dp" />
 
                 <TextView
+                    android:id="@+id/sign_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="签名"
+                    android:text="点击签名"
                     android:textColor="#ffffff"
                     android:layout_below="@+id/btn_sign"
                     android:layout_centerHorizontal="true"
@@ -75,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="重签"
+                android:text="重新签名"
                 android:textColor="#ffffff"
                 android:layout_below="@+id/imageView3"
                 android:layout_centerHorizontal="true"
@@ -85,7 +89,7 @@
         <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:id="@+id/rl_save"
+            android:id="@+id/rl_submit"
             android:layout_toLeftOf="@+id/rl_clear"
             android:visibility="gone">
 
@@ -93,6 +97,33 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:id="@+id/imageView4"
+                android:src="@drawable/icon_submit"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="提交签名"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/imageView4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rl_save"
+            android:layout_toLeftOf="@+id/rl_submit"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageView5"
                 android:src="@drawable/save"
                 android:scaleType="centerCrop"
                 android:layout_centerHorizontal="true"
@@ -102,9 +133,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="保存"
+                android:text="保存签名"
                 android:textColor="#ffffff"
-                android:layout_below="@+id/imageView4"
+                android:layout_below="@+id/imageView5"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp" />
         </RelativeLayout>

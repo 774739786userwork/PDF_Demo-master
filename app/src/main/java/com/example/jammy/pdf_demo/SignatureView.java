@@ -178,7 +178,7 @@ public class SignatureView extends View {
         mIsCanvasDraw = false;
         mStokeBrushPen.clear();
         //这里处理的不太好 需要优化
-        mCanvasCode=mPenconfig;
+        mCanvasCode = mPenconfig;
     }
 
     public TimeListener mGetTimeListner;

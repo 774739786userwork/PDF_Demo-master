@@ -31,12 +31,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jammy.pdf_demo.config.Model;
 import com.example.jammy.pdf_demo.util.MyActivityManager;
 /*
  *下载pdf
  */
-
-
 public class MainActivity extends Activity {
     private OkHttpClient okHttpClient;
     @Bind(R.id.textView)
@@ -46,7 +45,8 @@ public class MainActivity extends Activity {
     public static final int EXTERNAL_STORAGE_REQ_CODE = 10 ;
 
     String id = "";
-    String url = "";
+    String fid = "";
+    String feature = "";
 
     private Handler handler = new Handler() {
         @Override
@@ -76,10 +76,9 @@ public class MainActivity extends Activity {
         MyActivityManager.getInstance().pushActivity(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-//        id = getIntent().getStringExtra("id");
-        url = getIntent().getStringExtra("url");
-
+        id = getIntent().getStringExtra("id");
+        fid = getIntent().getStringExtra("fid");
+        feature = getIntent().getStringExtra("feature");
         requestPermission();
     }
 
@@ -133,6 +132,7 @@ public class MainActivity extends Activity {
         }
     }
     private void downloadPdfFile(){
+        final String url = Model.FILEURL+id;
         okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -156,7 +156,7 @@ public class MainActivity extends Activity {
                 try {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
-                    File file = new File(SDPath, url.substring(url.lastIndexOf("/") + 1));
+                    File file = new File(SDPath,"/"+id+".pdf");
                     fos = new FileOutputStream(file);
                     long sum = 0;
                     while ((len = is.read(buf)) != -1) {
@@ -174,7 +174,8 @@ public class MainActivity extends Activity {
                     Log.e("h_bl", "文件下载成功");
                     Intent intent = new Intent(MainActivity.this,PDFActivity.class);
                     intent.putExtra("id",id);
-                    intent.putExtra("url",url);
+                    intent.putExtra("fid",fid);
+                    intent.putExtra("feature",feature);
                     startActivity(intent);
                     MyActivityManager.getInstance().popActivity(MainActivity.this);
                 } catch (Exception e) {

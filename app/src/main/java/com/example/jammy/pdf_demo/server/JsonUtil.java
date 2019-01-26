@@ -15,17 +15,6 @@ import org.json.JSONObject;
 
 public class JsonUtil {
     /**
-     * 根据消息对象构建Json对象
-     *
-     * @param message
-     * @return
-     */
-    public static JSONObject initJsonObject(SocketMessage message) {
-        JSONObject jsonObject = new JSONObject();
-        return jsonObject;
-    }
-
-    /**
      * 解析Json数据
      *
      * @param json
@@ -35,10 +24,9 @@ public class JsonUtil {
         SocketMessage message = new SocketMessage();
         try {
             JSONObject jsonObject = new JSONObject(json);
-//            message.setId(jsonObject.getString("id"));
-            message.setFileUrl(jsonObject.getString("url"));
-            Log.e("tag", "parseJson: "+message.getFileUrl());
-//            message.setEmployeename(jsonObject.getString("employeeName"));
+            message.setId(jsonObject.getString("id"));
+            message.setFeature(jsonObject.getString("feature"));
+            message.setFid(jsonObject.getString("fid"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

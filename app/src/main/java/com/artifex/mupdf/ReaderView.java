@@ -3,6 +3,7 @@ package com.artifex.mupdf;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -15,9 +16,12 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import static android.content.ContentValues.TAG;
 import static android.util.Config.LOGD;
 
 
@@ -60,11 +64,9 @@ public class ReaderView extends AdapterView<Adapter>
 
     private final Scroller mScroller;
 
-
     private int mScrollerLastX;
     private int mScrollerLastY;
     private boolean mScrollDisabled;
-
 
     public int scrollX;
     public int scrollY;
@@ -72,7 +74,6 @@ public class ReaderView extends AdapterView<Adapter>
     private int mYScroll;    // and then accounted for in onLayout
 
     public static float scalingFactor = 1;
-
     public ReaderView(Context context) {
         super(context);
         mGestureDetector = new GestureDetector(this);
@@ -129,17 +130,18 @@ public class ReaderView extends AdapterView<Adapter>
     }
 
     protected void onMoveToChild(int i) {
+
     }
 
     protected void onSettle(View v) {
     }
 
-    ;
+
 
     protected void onUnsettle(View v) {
     }
 
-    ;
+
 
     public View getDisplayedView() {
         return mChildViews.get(mCurrent);
@@ -305,7 +307,6 @@ public class ReaderView extends AdapterView<Adapter>
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         mScaleGestureDetector.onTouchEvent(event);
         if (!mScaling)
             mGestureDetector.onTouchEvent(event);
@@ -656,6 +657,5 @@ public class ReaderView extends AdapterView<Adapter>
     public void setmScale(float scale) {
         this.mScale = scale;
     }
-
 
 }

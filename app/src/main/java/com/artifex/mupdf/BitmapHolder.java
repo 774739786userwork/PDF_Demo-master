@@ -15,6 +15,18 @@ public class BitmapHolder {
 		bm = abm;
 	}
 
+	/**
+	 * 功能：回收资源，释放内存
+	 * @param
+	 */
+	public void recycleBitmap(Bitmap bitmap) {
+		if(bitmap != null && bitmap.isRecycled()){
+			bitmap.recycle();
+			bitmap = null;
+			System.gc();//提醒系统回收
+		}
+	}
+
 	public synchronized void drop() {
 		bm = null;
 	}

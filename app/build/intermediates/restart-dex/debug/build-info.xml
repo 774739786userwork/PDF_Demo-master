@@ -5,40 +5,33 @@
     density="xhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="36541007398210"
+    timestamp="16437730890914"
     token="-2463300825297342293"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="408" />
+        duration="766" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="16" />
+        duration="54" />
     <task
         name="verifier"
-        duration="3" />
+        duration="22" />
 
     <artifact
-        location="D:\studioProject\PDF_Demo-master\PDF_Demo-master\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_7\classes.dex"
-        type="DEX" />
+        location="D:\studioProject\PDF_Demo-master\PDF_Demo-master\app\build\outputs\apk\app-debug.apk"
+        type="MAIN" />
 
     <build
-        timestamp="36249580232543"
+        timestamp="16437730890914"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="D:\studioProject\PDF_Demo-master\PDF_Demo-master\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
-    </build>
-    <build
-        timestamp="36541007398210"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="D:\studioProject\PDF_Demo-master\PDF_Demo-master\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_7\classes.dex"
-            type="DEX" />
     </build>
 
 </instant-run>

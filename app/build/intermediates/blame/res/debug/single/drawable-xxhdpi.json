@@ -32,6 +32,10 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-xxhdpi\\qianming.png"
     },
     {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\icon_submit.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-xxhdpi\\icon_submit.png"
+    },
+    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\erasure.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-xxhdpi\\erasure.png"
     }

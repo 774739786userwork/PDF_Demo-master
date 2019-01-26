@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.example.jammy.pdf_demo.MainActivity;
 import com.example.jammy.pdf_demo.PDFActivity;
 import com.example.jammy.pdf_demo.R;
 
@@ -38,12 +39,12 @@ public class SplashActivity extends Activity {
                         }
                     }
                 }.start();
-                Intent intent = new Intent(SplashActivity.this,PDFActivity.class);
+                Intent intent = new Intent(SplashActivity.this,SocketActivity.class);
                 startActivity(intent);
                 finish();
             } else {
                 if (network.IsConnect(SplashActivity.this)){
-                    Intent intent = new Intent(SplashActivity.this,PDFActivity.class);
+                    Intent intent = new Intent(SplashActivity.this,SocketActivity.class);
                     startActivity(intent);
                     finish();
                 }else {

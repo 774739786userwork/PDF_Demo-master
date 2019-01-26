@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,11 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jammy.pdf_demo.R;
@@ -32,6 +39,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,7 +49,8 @@ import okhttp3.Response;
 
 public class SocketActivity extends Activity{
     private long mExitTime=System.currentTimeMillis();
-
+    @Bind(R.id.setting)
+    TextView settext;
     private SocketService mService;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         /**
@@ -68,24 +77,45 @@ public class SocketActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         MyActivityManager.getInstance().pushActivity(this);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
 
         initView();
+        initClick();
         /**
          * 绑定服务
          */
         Intent intent = new Intent(this, SocketService.class);
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("IP", Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString("ip", "");
+        boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+        if (!isFirstRun){
+            Model.FILEURL = "http://"+name+"/resource/";
+            Model.HOST = name+"/webSocket/A8ED2ED1E0374BFB94C37E99B7CC3551";
+        }
     }
 
     private void initView() {
         getIMEI(getApplicationContext());
     }
 
+    private void initClick(){
+        settext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SocketActivity.this,SetActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void getPhoneNumber(String serialNumber){
-        String url = Model.HTTPURL+"mobileServiceManager/user/signOut.page?serialNumber="+serialNumber;
+        String url = Model.FILEURL+"mobileServiceManager/user/signOut.page?serialNumber="+serialNumber;
         OkHttpClient okHttpClient = new OkHttpClient();
         String format = String.format(url);
         Log.e("tag", "format-------------: "+format);
@@ -109,25 +139,7 @@ public class SocketActivity extends Activity{
             }
         });
 
-//        ThreadPoolUtils.execute(new HttpGetThread(handler,url));
     }
-
-    /*Handler handler = new Handler(){
-        public void handleMessage(android.os.Message msg) {
-            super.handleMessage(msg);
-            if(msg.what == 404){
-            }
-            if(msg.what == 100){
-            }
-            if(msg.what == 200){
-                String result = (String) msg.obj;
-                if (result != null) {
-                    Logger.t("TAG").d(result);
-                }
-            }
-        };
-    };*/
-
     public String getIMEI(Context context)
     {
         TelephonyManager TelephonyMgr = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
@@ -167,7 +179,8 @@ public class SocketActivity extends Activity{
             m_szUniqueID+=Integer.toHexString(b);
         }
         m_szUniqueID = m_szUniqueID.toUpperCase();
-        getPhoneNumber(m_szUniqueID);
+//        Log.e("tag", "m_szUniqueID-------------: "+m_szUniqueID);
+//        getPhoneNumber(m_szUniqueID);
         return m_szUniqueID;
     }
 

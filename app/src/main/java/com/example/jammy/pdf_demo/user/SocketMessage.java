@@ -7,21 +7,11 @@ import java.io.Serializable;
  */
 public class SocketMessage implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String type;
     public String id;
-    public String fileUrl;
-    public String employeename;
-
+    public String  feature;
+    public String fid;
     public SocketMessage() {
 
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getId() {
@@ -32,20 +22,19 @@ public class SocketMessage implements Serializable {
         this.id = id;
     }
 
-    public String getFileUrl() {
-        return fileUrl;
+    public String getFeature() {
+        return feature;
     }
 
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
+    public void setFeature(String feature) {
+        this.feature = feature;
     }
 
-    public String getEmployeename() {
-        return employeename;
+    public String getFid() {
+        return fid;
     }
 
-    public void setEmployeename(String employeename) {
-        this.employeename = employeename;
+    public void setFid(String fid) {
+        this.fid = fid;
     }
-
 }

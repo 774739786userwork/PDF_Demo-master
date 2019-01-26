@@ -36,7 +36,7 @@ public class SocketService extends Service {
         super.onCreate();
         Logger.t(TAG).d("onCreate()");
         acquireWakeLock();
-//        WsManager.getInstance().init();
+        WsManager.getInstance().init();
         //收到Service被杀死的广播，立即重启
         restartBR = new BroadcastReceiver() {
             @Override

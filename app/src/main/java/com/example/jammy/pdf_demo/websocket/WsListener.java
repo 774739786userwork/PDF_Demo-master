@@ -44,8 +44,9 @@ public class WsListener extends WebSocketAdapter {
             SocketMessage sMessage = JsonUtil.parseJson(text);
             sendNotification(sMessage);
             Intent intent = new Intent(WsApplication.getContext(), MainActivity.class);
-//            intent.putExtra("id",sMessage.getId());
-            intent.putExtra("url",sMessage.getFileUrl());
+            intent.putExtra("id",sMessage.getId());
+            intent.putExtra("fid",sMessage.getFid());
+            intent.putExtra("feature",sMessage.getFeature());
             Logger.t(TAG).d(text);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             WsApplication.getContext().startActivity(intent);
@@ -94,7 +95,7 @@ public class WsListener extends WebSocketAdapter {
         //状态栏显示的提示，有的手机不显示
         builder.setTicker("温馨提示！");
         //通知栏标题
-        builder.setContentTitle("获取的是：" + sMessage.getEmployeename()+"的日结单");
+        builder.setContentTitle("您有一份合同需要签署");
         /*//通知栏内容
         builder.setContentText(sMessage.getMessage());
         //通知内容摘要

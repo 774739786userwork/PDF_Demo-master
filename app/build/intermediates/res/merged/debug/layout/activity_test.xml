@@ -5,4 +5,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/beijing">
 
+    <TextView
+        android:id="@+id/setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置"
+        android:gravity="right"
+        android:textColor="@android:color/transparent"
+        android:clickable="true"
+        android:textSize="30sp"/>
 </RelativeLayout>
