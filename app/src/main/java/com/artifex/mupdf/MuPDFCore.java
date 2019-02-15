@@ -2,6 +2,7 @@ package com.artifex.mupdf;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 public class MuPDFCore
 {

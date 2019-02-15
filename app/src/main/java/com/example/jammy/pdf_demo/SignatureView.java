@@ -3,6 +3,7 @@ package com.example.jammy.pdf_demo;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.artifex.mupdf.ReaderView;
 import com.example.jammy.pdf_demo.paintutil.BasePenExtend;
 import com.example.jammy.pdf_demo.paintutil.BrushPen;
 import com.example.jammy.pdf_demo.paintutil.IPenConfig;
@@ -32,6 +34,7 @@ public class SignatureView extends View {
     private Paint mPaint;//画笔
     private Canvas mCanvas;//画布
     private Bitmap mBitmap;
+
     private Context mContext;
     public static int mCanvasCode = IPenConfig.STROKE_TYPE_PEN;
     private BasePenExtend mStokeBrushPen;
@@ -82,12 +85,13 @@ public class SignatureView extends View {
         mCanvas = new Canvas(mBitmap);
         //设置画布的颜色的问题
         mCanvas.drawColor(Color.TRANSPARENT);
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        canvas.clipRect(0, 50, 1100, 500);//控制画板的区域坐标(x,y,x+width,y+high);
-//        canvas.drawColor(Color.argb(150, 120, 120, 120));//控制画板的背景颜色
+        canvas.clipRect(0, 100, 1100, 500);//控制画板的区域坐标(x,y,x+width,y+high);
+        canvas.drawColor(Color.argb(10, 10, 10, 10));//控制画板的背景颜色
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
         switch (mCanvasCode) {
             case IPenConfig.STROKE_TYPE_PEN:

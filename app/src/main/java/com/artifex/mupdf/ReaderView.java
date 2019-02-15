@@ -1,9 +1,8 @@
 package com.artifex.mupdf;
-
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -16,14 +15,13 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
 
-import java.util.ArrayList;
+import com.example.jammy.pdf_demo.PDFActivity;
+import com.example.jammy.pdf_demo.ScrollListener;
+
 import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static android.content.ContentValues.TAG;
-import static android.util.Config.LOGD;
-
 
 public class ReaderView extends AdapterView<Adapter>
         implements GestureDetector.OnGestureListener, View.OnTouchListener,
@@ -74,6 +72,9 @@ public class ReaderView extends AdapterView<Adapter>
     private int mYScroll;    // and then accounted for in onLayout
 
     public static float scalingFactor = 1;
+    public static int screenWidth;
+    public static int screenHeight;
+    private int pageNum;
     public ReaderView(Context context) {
         super(context);
         mGestureDetector = new GestureDetector(this);
@@ -93,6 +94,12 @@ public class ReaderView extends AdapterView<Adapter>
         mGestureDetector = new GestureDetector(this);
         mScaleGestureDetector = new ScaleGestureDetector(context, this);
         mScroller = new Scroller(context);
+    }
+
+    protected void onHit(Hit item) {};
+
+    public void setLinksEnabled(boolean b) {
+        resetupChildren();
     }
 
     public int getDisplayedViewIndex() {
@@ -179,7 +186,6 @@ public class ReaderView extends AdapterView<Adapter>
         if (mScrollDisabled)
             return true;
 
-
         View v = mChildViews.get(mCurrent);
         if (v != null) {
             Rect bounds = getScrollBounds(v);
@@ -190,7 +196,10 @@ public class ReaderView extends AdapterView<Adapter>
                     if (bounds.left >= 0) {
                         // Fling off to the left bring next view onto screen
                         View vl = mChildViews.get(mCurrent + 1);
-
+                        //向左移动时当前页等于pdf页数
+                        if ((mCurrent+1)+1 ==pageNum) {
+                            listener.scroll(true);
+                        }
                         if (vl != null) {
                             slideViewOntoScreen(vl);
                             return true;
@@ -201,7 +210,10 @@ public class ReaderView extends AdapterView<Adapter>
                     if (bounds.right <= 0) {
                         // Fling off to the right bring previous view onto screen
                         View vr = mChildViews.get(mCurrent - 1);
-
+                        //向右移动时当前页不等于pdf页数
+                        if ((mCurrent-1)+1 !=pageNum) {
+                            listener.scroll(false);
+                        }
                         if (vr != null) {
                             slideViewOntoScreen(vr);
                             return true;
@@ -220,7 +232,6 @@ public class ReaderView extends AdapterView<Adapter>
                 post(this);
             }
         }
-
         return true;
     }
 
@@ -234,10 +245,13 @@ public class ReaderView extends AdapterView<Adapter>
      * */
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
                             float distanceY) {
-        if (!mScrollDisabled) {
+        if (!mScrollDisabled &&  NoTouch) {
             mXScroll -= distanceX;
             mYScroll -= distanceY;
             requestLayout();
+        }else if((PDFActivity.screenShotView).isShown()){
+            //调用截屏区域显示视图
+            screenShot(e2);
         }
         return true;
     }
@@ -260,21 +274,23 @@ public class ReaderView extends AdapterView<Adapter>
      * */
     public boolean onScale(ScaleGestureDetector detector) {
         //截屏视图不显示时，手势操作可以进行
-        float previousScale = getmScale();
-        mScale = Math.min(Math.max(getmScale() * detector.getScaleFactor(), MIN_SCALE), MAX_SCALE);
-        //缩放比例
-        scalingFactor = getmScale() / previousScale;
-        View v = mChildViews.get(mCurrent);
-        if (v != null) {
-            // Work out the focus point relative to the view top left
-            int viewFocusX = (int) detector.getFocusX() - (v.getLeft() + mXScroll);
-            int viewFocusY = (int) detector.getFocusY() - (v.getTop() + mYScroll);
-            // Scroll to maintain the focus point
-            mXScroll += viewFocusX - viewFocusX * scalingFactor;
-            mYScroll += viewFocusY - viewFocusY * scalingFactor;
-            requestLayout();
+        if(NoTouch){
+            float previousScale = getmScale();
+            mScale = Math.min(Math.max(getmScale() * detector.getScaleFactor(), MIN_SCALE), MAX_SCALE);
+            //缩放比例
+            scalingFactor = getmScale() / previousScale;
+            Log.e("info", "--->scalingFactor="+scalingFactor);
+            View v = mChildViews.get(mCurrent);
+            if (v != null) {
+                // Work out the focus point relative to the view top left
+                int viewFocusX = (int) detector.getFocusX() - (v.getLeft() + mXScroll);
+                int viewFocusY = (int) detector.getFocusY() - (v.getTop() + mYScroll);
+                // Scroll to maintain the focus point
+                mXScroll += viewFocusX - viewFocusX * scalingFactor;
+                mYScroll += viewFocusY - viewFocusY * scalingFactor;
+                requestLayout();
+            }
         }
-
         return true;
     }
 
@@ -524,6 +540,12 @@ public class ReaderView extends AdapterView<Adapter>
         return v;
     }
 
+    private ScrollListener listener;
+
+    public void setScrollListener(ScrollListener listener) {
+        this.listener = listener;
+    }
+
     private void addAndMeasureChild(int i, View v) {
         LayoutParams params = v.getLayoutParams();
         if (params == null) {
@@ -658,4 +680,95 @@ public class ReaderView extends AdapterView<Adapter>
         this.mScale = scale;
     }
 
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    /**
+     * 功能：自定义一个显示截屏区域视图方法
+     * */
+    public void screenShot(MotionEvent e2){
+        //这里实现截屏区域控制
+        PDFActivity.oX = (int) e2.getX();
+        PDFActivity.oY = (int) e2.getY();
+        Log.e(TAG, "PDFActivity.oX:::"+PDFActivity.oX+"PDFActivity.oY=========>"+PDFActivity.oY);
+        View screenView = new View(PDFActivity.THIS);
+        screenView = PDFActivity.THIS.getWindow().getDecorView();
+        screenView.setDrawingCacheEnabled(true);
+        screenView.buildDrawingCache();
+        Bitmap screenbitmap = screenView.getDrawingCache();
+        screenWidth = screenbitmap.getWidth();
+        screenHeight = screenbitmap.getHeight();
+        int oX = PDFActivity.oX;
+        int oY = PDFActivity.oY;
+        int x = 0  ;
+        int y = 0 ;
+        int m = 0 ;
+        int n = 0 ;
+        //oX = (int) event.getX();
+        //oY = (int) event.getY();
+        if(oX -120 <= 0){
+            if(oY - 90 <= 0){
+                //左边界和上边界同时出界
+                x = 0;
+                y = 0;
+                m = 400;
+                n = 120;
+            }else if(oY + 90 >= screenHeight){
+                //左边界和下边界同时出界
+                x = 0;
+                y = screenHeight - 120;
+                m = 400;
+                n = screenHeight;
+            }else{
+                //只有左边界
+                x = 0;
+                y = oY - 90;
+                m = 400;
+                n = y + 120;
+            }
+        }else if(oX + 120 >= screenWidth){
+            if(oY - 90 <= 0){
+                //右边界和上边界同时出界
+                x = screenWidth - 400;
+                y = 0;
+                m = screenWidth;
+                n = y + 120;
+            }else if(oY + 90 >= screenHeight){
+                //右边界和下边界同时出界
+
+
+            }else{
+                //只有右边界出界
+                x = screenWidth - 400;
+                y = oY - 90;
+                m = screenWidth;
+                n = y + 120;
+            }
+        }else if(oY - 90 <= 0){
+            //只有上边界出界
+            x = oX - 90;
+            y = 0;
+            m = x + 400;
+            n = y + 120;
+        }else if(oY + 90 >= screenHeight){
+            //只有下边界出界
+            x = oX - 120;
+            y = screenHeight - 120;
+            m = x + 400;
+            n = y +120;
+        }else{
+            //都不出界
+            x = oX - 120;
+            y = oY - 90;
+            m = x + 400;
+            n = y + 120;
+        }
+        //根据屏幕坐标，显示要截图的区域范围
+        PDFActivity.x = x;
+        PDFActivity.y = y;
+        Log.e(TAG, "x: :::::"+PDFActivity.x+"y-->"+PDFActivity.y);
+        PDFActivity.screenShotView.setSeat(x, y, m, n);
+        PDFActivity.screenShotView.postInvalidate();
+    }
 }

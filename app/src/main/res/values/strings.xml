@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">壹鉴签字板</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
+    <string name="searching_">Searching&#8230;</string>
+    <string name="text_not_found">内容没发现</string>
+    <string name="no_further_occurrences_found">没有内容</string>
+    <string name="dismiss">关闭</string>
 </resources>

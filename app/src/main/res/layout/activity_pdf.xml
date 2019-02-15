@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
-
     <com.artifex.mupdf.ReaderView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +31,7 @@
                 android:id="@+id/rel_sign"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -41,7 +40,6 @@
                     android:src="@drawable/sign"
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
-                    android:contentDescription="开始签名"
                     android:layout_marginTop="6dp" />
 
                 <TextView
@@ -60,10 +58,39 @@
         <RelativeLayout
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:id="@+id/rl_clear"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/rl_sign"
-            android:layout_toStartOf="@+id/rl_sign"
+            android:id="@+id/rl_screen">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:id="@+id/btn_screen"
+                android:src="@drawable/screen"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="锁定屏幕"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:id="@+id/screen_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="选择区域"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/btn_screen"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rl_clear"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/rl_screen"
             android:visibility="gone">
 
             <ImageView

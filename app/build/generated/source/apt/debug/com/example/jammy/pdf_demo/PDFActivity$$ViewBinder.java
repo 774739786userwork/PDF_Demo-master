@@ -12,21 +12,24 @@ public class PDFActivity$$ViewBinder<T extends com.example.jammy.pdf_demo.PDFAct
     target.readerView = finder.castView(view, 2131492947, "field 'readerView'");
     view = finder.findRequiredView(source, 2131492950, "field 'rlSign'");
     target.rlSign = finder.castView(view, 2131492950, "field 'rlSign'");
-    view = finder.findRequiredView(source, 2131492953, "field 'rlClear'");
-    target.rlClear = finder.castView(view, 2131492953, "field 'rlClear'");
-    view = finder.findRequiredView(source, 2131492957, "field 'rlSave'");
-    target.rlSave = finder.castView(view, 2131492957, "field 'rlSave'");
-    view = finder.findRequiredView(source, 2131492955, "field 'rlSubmit'");
-    target.rlSubmit = finder.castView(view, 2131492955, "field 'rlSubmit'");
+    view = finder.findRequiredView(source, 2131492953, "field 'mScreenShot'");
+    target.mScreenShot = finder.castView(view, 2131492953, "field 'mScreenShot'");
+    view = finder.findRequiredView(source, 2131492956, "field 'rlClear'");
+    target.rlClear = finder.castView(view, 2131492956, "field 'rlClear'");
+    view = finder.findRequiredView(source, 2131492960, "field 'rlSave'");
+    target.rlSave = finder.castView(view, 2131492960, "field 'rlSave'");
+    view = finder.findRequiredView(source, 2131492958, "field 'rlSubmit'");
+    target.rlSubmit = finder.castView(view, 2131492958, "field 'rlSubmit'");
     view = finder.findRequiredView(source, 2131492952, "field 'textSign'");
     target.textSign = finder.castView(view, 2131492952, "field 'textSign'");
-    view = finder.findRequiredView(source, 2131492951, "field 'imgBtnSign'");
-    target.imgBtnSign = finder.castView(view, 2131492951, "field 'imgBtnSign'");
+    view = finder.findRequiredView(source, 2131492954, "field 'imgBtnSign'");
+    target.imgBtnSign = finder.castView(view, 2131492954, "field 'imgBtnSign'");
   }
 
   @Override public void unbind(T target) {
     target.readerView = null;
     target.rlSign = null;
+    target.mScreenShot = null;
     target.rlClear = null;
     target.rlSave = null;
     target.rlSubmit = null;

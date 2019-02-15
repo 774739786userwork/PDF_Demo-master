@@ -39,12 +39,12 @@ public class SplashActivity extends Activity {
                         }
                     }
                 }.start();
-                Intent intent = new Intent(SplashActivity.this,SocketActivity.class);
+                Intent intent = new Intent(SplashActivity.this,PDFActivity.class);
                 startActivity(intent);
                 finish();
             } else {
                 if (network.IsConnect(SplashActivity.this)){
-                    Intent intent = new Intent(SplashActivity.this,SocketActivity.class);
+                    Intent intent = new Intent(SplashActivity.this,PDFActivity.class);
                     startActivity(intent);
                     finish();
                 }else {
