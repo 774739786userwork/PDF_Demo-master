@@ -121,6 +121,7 @@ public class MuPDFCore
 
 	public synchronized RectF[] searchPage(int page, String text) {
 		gotoPage(page);
+		Log.e("TAG", "searchPage: "+text);
 		return searchPage(text);
 	}
 

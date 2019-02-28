@@ -143,12 +143,8 @@ public class ReaderView extends AdapterView<Adapter>
     protected void onSettle(View v) {
     }
 
-
-
     protected void onUnsettle(View v) {
     }
-
-
 
     public View getDisplayedView() {
         return mChildViews.get(mCurrent);
@@ -197,7 +193,7 @@ public class ReaderView extends AdapterView<Adapter>
                         // Fling off to the left bring next view onto screen
                         View vl = mChildViews.get(mCurrent + 1);
                         //向左移动时当前页等于pdf页数
-                        if ((mCurrent+1)+1 ==pageNum) {
+                        if ((mCurrent+1)+1 == pageNum) {
                             listener.scroll(true);
                         }
                         if (vl != null) {
@@ -211,7 +207,7 @@ public class ReaderView extends AdapterView<Adapter>
                         // Fling off to the right bring previous view onto screen
                         View vr = mChildViews.get(mCurrent - 1);
                         //向右移动时当前页不等于pdf页数
-                        if ((mCurrent-1)+1 !=pageNum) {
+                        if ((mCurrent-1)+1 != pageNum) {
                             listener.scroll(false);
                         }
                         if (vr != null) {
@@ -249,7 +245,7 @@ public class ReaderView extends AdapterView<Adapter>
             mXScroll -= distanceX;
             mYScroll -= distanceY;
             requestLayout();
-        }else if((PDFActivity.screenShotView).isShown()){
+        }else if(PDFActivity.screenShotView != null && (PDFActivity.screenShotView).isShown()){
             //调用截屏区域显示视图
             screenShot(e2);
         }
@@ -333,7 +329,6 @@ public class ReaderView extends AdapterView<Adapter>
         if (event.getActionMasked() == MotionEvent.ACTION_UP) {
             mScrollDisabled = false;
             mUserInteracting = false;
-
 
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 View v = mChildViews.get(mCurrent);
@@ -565,11 +560,7 @@ public class ReaderView extends AdapterView<Adapter>
         {
             scale = (float)getWidth()/(float)v.getMeasuredWidth();
             MIN_SCALE = (float)v.getMeasuredWidth()/(float)getWidth();
-            Log.d("tag","最小密度：：：：：：：："+MIN_SCALE);
-
             MAX_SCALE = MIN_SCALE*5.0f;
-            Log.d("tag","最大密度：：：：：：：："+MAX_SCALE);
-
         }else {
             scale = Math.min((float) getWidth() / (float) v.getMeasuredWidth(),
                     (float) getHeight() / (float) v.getMeasuredHeight());
@@ -684,6 +675,10 @@ public class ReaderView extends AdapterView<Adapter>
         this.pageNum = pageNum;
     }
 
+    public int getPageNum() {
+        return pageNum;
+    }
+
     /**
      * 功能：自定义一个显示截屏区域视图方法
      * */
@@ -691,7 +686,6 @@ public class ReaderView extends AdapterView<Adapter>
         //这里实现截屏区域控制
         PDFActivity.oX = (int) e2.getX();
         PDFActivity.oY = (int) e2.getY();
-        Log.e(TAG, "PDFActivity.oX:::"+PDFActivity.oX+"PDFActivity.oY=========>"+PDFActivity.oY);
         View screenView = new View(PDFActivity.THIS);
         screenView = PDFActivity.THIS.getWindow().getDecorView();
         screenView.setDrawingCacheEnabled(true);
@@ -767,7 +761,6 @@ public class ReaderView extends AdapterView<Adapter>
         //根据屏幕坐标，显示要截图的区域范围
         PDFActivity.x = x;
         PDFActivity.y = y;
-        Log.e(TAG, "x: :::::"+PDFActivity.x+"y-->"+PDFActivity.y);
         PDFActivity.screenShotView.setSeat(x, y, m, n);
         PDFActivity.screenShotView.postInvalidate();
     }

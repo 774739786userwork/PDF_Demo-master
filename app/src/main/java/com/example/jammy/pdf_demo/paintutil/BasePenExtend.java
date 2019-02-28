@@ -8,9 +8,7 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 
 /**
- * @author shiming
- * @version v1.0 create at 2017/10/10
- * @des
+ *Created by bangware
  */
 public abstract class BasePenExtend extends BasePen {
 
@@ -59,8 +57,6 @@ public abstract class BasePenExtend extends BasePen {
         }
     }
 
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event, Canvas canvas) {
         // event会被下一次事件重用，这里必须生成新的，否则会有问题
@@ -94,8 +90,8 @@ public abstract class BasePenExtend extends BasePen {
             mPaint=paint;
             //当然了，不要因为担心内存泄漏，在每个变量使用完成后都添加xxx=null，
             // 对于消除过期引用的最好方法，就是让包含该引用的变量结束生命周期，而不是显示的清空
-            paint=null;
-            System.out.println("shiming 当绘制的时候是否为新的paint"+mPaint+"原来的对象是否销毁了paint=="+paint);
+            paint = null;
+            System.out.println("当绘制的时候是否为新的paint"+mPaint+"原来的对象是否销毁了paint=="+paint);
         }
         mPointList.clear();
         //如果在brush字体这里接受到down的事件，把下面的这个集合清空的话，那么绘制的内容会发生改变
@@ -103,7 +99,7 @@ public abstract class BasePenExtend extends BasePen {
         mHWPointList.clear();
         //记录down的控制点的信息
         ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);
-        //如果用笔画的画我的屏幕，记录他宽度的和压力值的乘，但是哇，
+        //如果用笔画的画我的屏幕，记录他宽度的和压力值的乘
         if (mElement.tooltype == MotionEvent.TOOL_TYPE_STYLUS) {
             mLastWidth = mElement.pressure * mBaseWidth;
         } else {
@@ -127,7 +123,6 @@ public abstract class BasePenExtend extends BasePen {
      * @param mElement
      */
     public void onMove(MotionElement mElement){
-
         ControllerPoint curPoint = new ControllerPoint(mElement.x, mElement.y);
         double deltaX = curPoint.x - mLastPoint.x;
         double deltaY = curPoint.y - mLastPoint.y;
@@ -174,7 +169,6 @@ public abstract class BasePenExtend extends BasePen {
      * @param canvas
      */
     public void onUp(MotionElement mElement, Canvas canvas){
-
         mCurPoint = new ControllerPoint(mElement.x, mElement.y);
         double deltaX = mCurPoint.x - mLastPoint.x;
         double deltaY = mCurPoint.y - mLastPoint.y;
@@ -203,7 +197,7 @@ public abstract class BasePenExtend extends BasePen {
             mHWPointList.add(point);
         }
 
-        // 手指up 我画到纸上上
+        // 手指up 我画到纸上
         draw(canvas);
         //每次抬起手来，就把集合清空，在水彩笔的那个地方，如果啊，我说如果不清空的话，每次抬起手来，
         // 在onDown下去的话，最近画的线的透明度有改变，所以这里clear下线的集合

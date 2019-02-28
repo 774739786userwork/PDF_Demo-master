@@ -22,6 +22,7 @@ import com.example.jammy.pdf_demo.paintutil.BrushPen;
 import com.example.jammy.pdf_demo.paintutil.IPenConfig;
 import com.example.jammy.pdf_demo.paintutil.SteelPen;
 
+import static android.content.ContentValues.TAG;
 import static com.example.jammy.pdf_demo.paintutil.IPenConfig.PEN_WIDTH;
 
 
@@ -31,15 +32,16 @@ import static com.example.jammy.pdf_demo.paintutil.IPenConfig.PEN_WIDTH;
  */
 public class SignatureView extends View {
     private static final String TAG = "DrawPenView";
-    private Paint mPaint;//画笔
-    private Canvas mCanvas;//画布
-    private Bitmap mBitmap;
-
+    private Paint mPaint = null;//画笔
+    private Canvas canvas = null;//画布
     private Context mContext;
     public static int mCanvasCode = IPenConfig.STROKE_TYPE_PEN;
     private BasePenExtend mStokeBrushPen;
     private boolean mIsCanvasDraw;
     private int mPenconfig;
+
+    private Bitmap mBitmap = null;
+    public static Bitmap saveImage = null;
 
     public SignatureView(Context context) {
         super(context);
@@ -66,7 +68,6 @@ public class SignatureView extends View {
         initCanvas();
     }
 
-
     private void initPaint() {
         mPaint = new Paint();
         mPaint.setColor(IPenConfig.PEN_CORLOUR);
@@ -82,16 +83,25 @@ public class SignatureView extends View {
     }
 
     private void initCanvas() {
-        mCanvas = new Canvas(mBitmap);
-        //设置画布的颜色的问题
-        mCanvas.drawColor(Color.TRANSPARENT);
+        canvas = new Canvas(mBitmap);
+    }
 
+    public Bitmap saveImage() {
+        if (saveImage == null) {
+            return null;
+        }
+        return saveImage;
+    }
+
+    public void setCanvasColor(Canvas canvas){
+        canvas.drawColor(Color.TRANSPARENT);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.clipRect(0, 100, 1100, 500);//控制画板的区域坐标(x,y,x+width,y+high);
-        canvas.drawColor(Color.argb(10, 10, 10, 10));//控制画板的背景颜色
+        super.onDraw(canvas);
+        canvas.clipRect(0, 50, 1100, 500);//控制画布的区域坐标(x,y,x+width,y+high);
+        canvas.drawColor(Color.argb(10, 10, 10, 10));//控制画布的背景颜色
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
         switch (mCanvasCode) {
             case IPenConfig.STROKE_TYPE_PEN:
@@ -105,7 +115,6 @@ public class SignatureView extends View {
                 Log.e(TAG, "onDraw" + Integer.toString(mCanvasCode));
                 break;
         }
-        super.onDraw(canvas);
     }
 
     public void setCanvasCode(int canvasCode) {
@@ -144,7 +153,7 @@ public class SignatureView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         mIsCanvasDraw = true;
         MotionEvent event2 = MotionEvent.obtain(event);
-        mStokeBrushPen.onTouchEvent(event2, mCanvas);
+        mStokeBrushPen.onTouchEvent(event2, canvas);
         switch (event2.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 if (mGetTimeListner!=null)
@@ -177,7 +186,7 @@ public class SignatureView extends View {
      */
     public void reset() {
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        mCanvas.drawPaint(mPaint);
+        canvas.drawPaint(mPaint);
         mPaint.setXfermode(null);
         mIsCanvasDraw = false;
         mStokeBrushPen.clear();

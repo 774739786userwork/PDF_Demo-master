@@ -3,8 +3,7 @@ package com.example.jammy.pdf_demo.paintutil;
 import android.graphics.Color;
 
 /**
- * @author shiming
- * @version v1.0 create at 2017/10/10
+ * @author bangware
  * @des  笔的设置，但是有些笔的设置最好不要放在这里，不要笔的颜色和宽度
  */
 public interface IPenConfig {

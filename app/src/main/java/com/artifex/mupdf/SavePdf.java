@@ -120,9 +120,8 @@ public class SavePdf {
             img.scaleAbsolute(180 * 1.0f * density / 2 / scale * rectangle.getWidth() / (bitmap.getWidth() / 2),
                     180 * 1.0f * density / 2 / scale * rectangle.getWidth() / (bitmap.getWidth() / 2));
             //设置image相对PDF左下角的偏移量，得到放大后位置相对于整个PDF的百分比再乘PDF的大小得到他的相对偏移位置
-//            img.setAbsolutePosition(350, 600);
             writingPosition(img ,pa.getAsNumber(pa.size()-1).floatValue());
-            Log.e("TAG", "pa.getAsNumber========>"+pa.getAsNumber(pa.size()-1).floatValue());
+//            img.setAbsolutePosition(rectangle.getWidth() * widthScale, rectangle.getHeight() * heightScale);
             over.addImage(img);
             stamp.close();
         } catch (FileNotFoundException e) {
@@ -160,17 +159,13 @@ public class SavePdf {
         int pdfPatchY = MuPDFPageView.pdfPatchY;
         int pdfPatchWidth = MuPDFPageView.pdfPatchWidth;
         int pdfPatchHeight = MuPDFPageView.pdfPatchHeight;
-        Log.e(TAG, "pdfSizeX大小："+pdfSizeX+"pdfSizeY大小："+pdfSizeY);
-        Log.e(TAG, "pdfPatchX大小："+pdfPatchX+"pdfPatchY大小："+pdfPatchY);
-        Log.e(TAG, "pdfPatchWidth宽度："+pdfPatchWidth+"pdfPatchHeight高度："+pdfPatchHeight);
         int y = PDFActivity.y+180;
         float n = pdfPatchWidth*1.0f;
         float m = pdfPatchHeight*1.0f;
         n = pdfSizeX/n;
         m = pdfSizeY/m;
-        Log.e("TAG", "n:::::"+n+"m::::::"+m+"y的值："+y);
         if(n == 1.0f){
-            //pdf页面没有放大时的比例
+            //pdf页面没有放大时的比例190
             if(PDFActivity.y >= 900){
                 img.setAbsolutePosition(PDFActivity.x *2/4,pdfHigth-((PDFActivity.y+190)*2/4));
             }else if(PDFActivity.y <= 60){
@@ -182,7 +177,6 @@ public class SavePdf {
             n = (PDFActivity.x+pdfPatchX)/n;
             m = (PDFActivity.y+pdfPatchY)/m;
             img.setAbsolutePosition(n*5/6,pdfHigth-((m+120)*5/6));
-            Log.e("TAG", "writingPosition: -------------"+n+","+m);
         }
     }
 
