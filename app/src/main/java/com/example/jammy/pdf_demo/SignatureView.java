@@ -7,22 +7,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.artifex.mupdf.ReaderView;
 import com.example.jammy.pdf_demo.paintutil.BasePenExtend;
 import com.example.jammy.pdf_demo.paintutil.BrushPen;
 import com.example.jammy.pdf_demo.paintutil.IPenConfig;
 import com.example.jammy.pdf_demo.paintutil.SteelPen;
 
-import static android.content.ContentValues.TAG;
+import static android.R.attr.width;
+import static com.example.jammy.pdf_demo.R.attr.height;
 import static com.example.jammy.pdf_demo.paintutil.IPenConfig.PEN_WIDTH;
 
 
@@ -42,6 +41,15 @@ public class SignatureView extends View {
 
     private Bitmap mBitmap = null;
     public static Bitmap saveImage = null;
+
+    /**监听签名完成、清除接口*/
+    private boolean mIsEmpty;
+    private OnSignedListener mOnSignedListener;
+    public interface OnSignedListener {
+        public void onSigned();
+
+        public void onClear();
+    }
 
     public SignatureView(Context context) {
         super(context);
@@ -86,22 +94,9 @@ public class SignatureView extends View {
         canvas = new Canvas(mBitmap);
     }
 
-    public Bitmap saveImage() {
-        if (saveImage == null) {
-            return null;
-        }
-        return saveImage;
-    }
-
-    public void setCanvasColor(Canvas canvas){
-        canvas.drawColor(Color.TRANSPARENT);
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.clipRect(0, 50, 1100, 500);//控制画布的区域坐标(x,y,x+width,y+high);
-        canvas.drawColor(Color.argb(10, 10, 10, 10));//控制画布的背景颜色
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
         switch (mCanvasCode) {
             case IPenConfig.STROKE_TYPE_PEN:
@@ -133,6 +128,54 @@ public class SignatureView extends View {
             mStokeBrushPen.setPaint(mPaint);
         }
         invalidate();
+    }
+
+    public boolean isEmpty() {
+        return mIsEmpty;
+    }
+
+    public Bitmap getSignatureBitmap() {
+        Bitmap originalBitmap = getTransparentSignatureBitmap();
+        Bitmap whiteBgBitmap = Bitmap.createBitmap(originalBitmap.getWidth(), originalBitmap.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(whiteBgBitmap);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(originalBitmap, 0, 0, null);
+        return whiteBgBitmap;
+    }
+
+    public Bitmap getTransparentSignatureBitmap() {
+        ensureSignatureBitmap();
+        return mBitmap;
+    }
+
+    public void ensureSignatureBitmap() {
+        if (mBitmap == null) {
+            mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            canvas = new Canvas(mBitmap);
+
+            //设置背景图图片  要指定图片大小  否则下面注释的方法会放大
+            canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.qianming),
+                    new Rect(0, 0, BitmapFactory.decodeResource(getResources(), R.drawable.qianming).getWidth(),
+                            BitmapFactory.decodeResource(getResources(), R.drawable.qianming).getHeight()),
+                    new Rect(0, 0, width, height), mPaint);
+
+        }
+    }
+
+    public void setOnSignedListener(OnSignedListener listener) {
+        mOnSignedListener = listener;
+    }
+
+    private void setIsEmpty(boolean newValue) {
+        mIsEmpty = newValue;
+        if (mOnSignedListener != null) {
+            if (mIsEmpty) {
+                mOnSignedListener.onClear();
+            } else {
+                mOnSignedListener.onSigned();
+            }
+        }
     }
 
     /**
@@ -307,6 +350,7 @@ public class SignatureView extends View {
      */
     public void clear() {
         reset();
+        setIsEmpty(true);
         invalidate();
     }
 }

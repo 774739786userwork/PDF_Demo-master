@@ -44,8 +44,7 @@
         <activity
             android:name=".PDFActivity"
             android:hardwareAccelerated="false"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".util.SocketActivity"
             android:screenOrientation="portrait" />
@@ -64,7 +63,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".util.SetActivity"></activity>
+        <activity android:name=".util.SetActivity" />
+        <activity android:name=".util.UserSignActivity"></activity>
     </application>
 
 </manifest>

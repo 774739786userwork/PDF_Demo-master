@@ -30,7 +30,8 @@ public class SplashActivity extends Activity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (isFristRun()) {
-                new Thread() {//等待1.5秒
+                new Thread() {
+                    //等待1.5秒
                     public void run() {
                         try {
                             Thread.sleep(1500);
@@ -39,14 +40,16 @@ public class SplashActivity extends Activity {
                         }
                     }
                 }.start();
-                Intent intent = new Intent(SplashActivity.this,PDFActivity.class);
+                Intent intent = new Intent(SplashActivity.this,SocketActivity.class);
                 startActivity(intent);
                 finish();
+                MyActivityManager.getInstance().popActivity(SplashActivity.this);
             } else {
                 if (network.IsConnect(SplashActivity.this)){
-                    Intent intent = new Intent(SplashActivity.this,PDFActivity.class);
+                    Intent intent = new Intent(SplashActivity.this,SocketActivity.class);
                     startActivity(intent);
                     finish();
+                    MyActivityManager.getInstance().popActivity(SplashActivity.this);
                 }else {
                     Toast.makeText(SplashActivity.this, "请检查网络连接！", Toast.LENGTH_SHORT).show();
                 }

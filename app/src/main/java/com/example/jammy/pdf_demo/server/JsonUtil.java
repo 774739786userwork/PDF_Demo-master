@@ -1,17 +1,9 @@
 package com.example.jammy.pdf_demo.server;
-
-
 import android.util.Log;
 
-import com.example.jammy.pdf_demo.config.Model;
 import com.example.jammy.pdf_demo.user.SocketMessage;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-/**
-
- */
 
 public class JsonUtil {
     /**
@@ -24,9 +16,14 @@ public class JsonUtil {
         SocketMessage message = new SocketMessage();
         try {
             JSONObject jsonObject = new JSONObject(json);
-            message.setId(jsonObject.getString("id"));
-            message.setFeature(jsonObject.getString("feature"));
-            message.setFid(jsonObject.getString("fid"));
+            if (!jsonObject.isNull("userId")){
+                message.setUserId(jsonObject.getString("userId"));
+            }else if(!jsonObject.isNull("id")){
+                message.setId(jsonObject.getString("id"));
+                message.setFeature(jsonObject.getString("feature"));
+                message.setFid(jsonObject.getString("fid"));
+            }
+            Log.e("TAG", "parseJson: ===================="+jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

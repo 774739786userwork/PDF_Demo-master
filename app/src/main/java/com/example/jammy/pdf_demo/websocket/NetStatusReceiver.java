@@ -9,7 +9,7 @@ import android.net.NetworkInfo;
 import com.orhanobut.logger.Logger;
 
 /**
- * Created by MSI on 2017/6/9.
+ * Created by bangware
  */
 
 public class NetStatusReceiver extends BroadcastReceiver {

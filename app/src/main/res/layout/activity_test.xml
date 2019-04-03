@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/beijing">
-
+    <!--android:textColor="@android:color/transparent"-->
     <TextView
         android:id="@+id/setting"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="设置"
-        android:gravity="right"
-        android:textColor="@android:color/transparent"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/white"
         android:clickable="true"
-        android:textSize="30sp"/>
+        android:layout_margin="10dp"
+        android:textSize="20sp"/>
 </RelativeLayout>

@@ -4,56 +4,36 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_lastone.png"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_signature.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_signature.png"
-    },
-    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_erasure.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_erasure.png"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_textfield_search_material.xml"
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sign_clear.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\sign_clear.png"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_submit.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_submit.png"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_spinner_textfield_background_material.xml"
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\dialog_bottom_bg.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\dialog_bottom_bg.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bwater_top_input.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\bwater_top_input.png"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_borderless_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_btn_borderless_material.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\qianming1.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\qianming1.png"
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_image.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_image.png"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_check_material.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_btn_check_material.xml"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_light.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_holo_light.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_internal_bg.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
-    },
-    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\darkdenim3.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\darkdenim3.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_tab_indicator_material.xml",
@@ -66,6 +46,106 @@
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_indicator_material.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_ratingbar_indicator_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_dialog_material_background_light.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bg_c13939_corners_30.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\bg_c13939_corners_30.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\qianming.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\qianming.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape_product_dialog.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\shape_product_dialog.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_small_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_ratingbar_small_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\selector_button_corners.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\selector_button_corners.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\checkbox_selector.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\checkbox_selector.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_full_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_ratingbar_full_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_text_cursor_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_save.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_save.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_cab_background_top_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\finish.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\finish.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape_button_corners_pressed.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\shape_button_corners_pressed.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_signature.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_signature.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape_button_corners.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\shape_button_corners.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_textfield_search_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_submit.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_submit.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bg_image_border.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\bg_image_border.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_spinner_textfield_background_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_borderless_material.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\qianming1.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\qianming1.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_internal_bg.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_light.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_holo_light.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
@@ -84,36 +164,16 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_dialog_material_background_dark.xml"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_dialog_material_background_light.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\qianming.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\qianming.png"
-    },
-    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_thumb_material.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_seekbar_thumb_material.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_small_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_ratingbar_small_material.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\checkbox_selector.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\checkbox_selector.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_dark.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_list_selector_holo_dark.xml"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_full_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_ratingbar_full_material.xml"
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\about_showleft_selector.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\about_showleft_selector.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
@@ -124,20 +184,8 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\rounded_corners.xml"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_text_cursor_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_text_cursor_material.xml"
-    },
-    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\frame.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\frame.xml"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\icon_pdf_save.png",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\icon_pdf_save.png"
-    },
-    {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_cab_background_top_material.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\login_btn_bg.xml",
@@ -148,12 +196,12 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_btn_radio_material.xml"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bt_shape.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\bt_shape.xml"
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bg_a82626_corners_50.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\bg_a82626_corners_50.xml"
     },
     {
-        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
-        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bt_shape.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable\\bt_shape.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape.xml",

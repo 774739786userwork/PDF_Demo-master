@@ -7,11 +7,20 @@ import java.io.Serializable;
  */
 public class SocketMessage implements Serializable {
     private static final long serialVersionUID = 1L;
+    public String userId;
     public String id;
     public String  feature;
     public String fid;
     public SocketMessage() {
 
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {

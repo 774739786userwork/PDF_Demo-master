@@ -8,6 +8,10 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\anim\\abc_popup_enter.xml"
     },
     {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\scale_in.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\anim\\scale_in.xml"
+    },
+    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\anim\\abc_fade_in.xml"
     },
@@ -18,6 +22,10 @@
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\push_bottom_out.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\anim\\push_bottom_out.xml"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
@@ -38,5 +46,13 @@
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\scale_out.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\anim\\scale_out.xml"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\anim\\push_bottom_in.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\anim\\push_bottom_in.xml"
     }
 ]

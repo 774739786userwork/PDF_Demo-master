@@ -8,6 +8,4 @@ public class LinkInfo extends RectF {
 		super(l, t, r, b);
 		pageNumber = p;
 	}
-	public void acceptVisitor(LinkInfoVisitor visitor) {
-	}
 }

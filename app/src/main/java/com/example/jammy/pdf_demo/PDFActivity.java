@@ -8,13 +8,9 @@ import android.content.DialogInterface;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,13 +20,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -43,11 +39,13 @@ import com.artifex.mupdf.MuPDFPageAdapter;
 import com.artifex.mupdf.ReaderView;
 import com.artifex.mupdf.SavePdf;
 import com.artifex.mupdf.ScreenShotView;
-import com.artifex.mupdf.SearchTask;
-import com.artifex.mupdf.SearchTaskResult;
 import com.example.jammy.pdf_demo.config.Model;
+import com.example.jammy.pdf_demo.user.SocketMessage;
+import com.example.jammy.pdf_demo.util.CustomProgressDialog;
 import com.example.jammy.pdf_demo.util.MyActivityManager;
 import com.example.jammy.pdf_demo.util.SocketActivity;
+import com.example.jammy.pdf_demo.view.VDHDeepLayout;
+
 import java.io.File;
 import java.io.IOException;
 import butterknife.Bind;
@@ -60,8 +58,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static android.content.ContentValues.TAG;
 
 /**
  *pdf显示预览
@@ -91,6 +87,9 @@ public class PDFActivity extends Activity implements ScrollListener{
     @Bind(R.id.btn_screen)
     ImageView imgBtnSign;
 
+    @Bind(R.id.signView1)
+    VDHDeepLayout signView1;
+    private TextView signCloseTv;
     private boolean isUpdate = false;
     private String in_path;
     private String out_path;
@@ -103,25 +102,16 @@ public class PDFActivity extends Activity implements ScrollListener{
     private ProgressDialog progressDialog;
     private  MuPDFCore muPDFCore;
     private Save_Pdf save_pdf;
-    private String id = "";
-    private String fid = "";
-    private String feature = "";
-
-    private SearchTask mSearchTask;
-    private String mSearchText = "乙方（签字）";
-
+    private SocketMessage socketMessage = null;
     /**
      * 绘画选择区域
      */
     public static ScreenShotView screenShotView;
-    public static int x = 200;//绘画开始的横坐标
-    public static int y = 300;//绘画开始的纵坐标
+    public static int x = 200;//700;//绘画开始的横坐标
+
+    public static int y = 300;//190;//绘画开始的纵坐标
     public static int oX;//标示区域的中心点横坐标
     public static int oY;//标示区域的中心点纵坐标
-    /**
-     * 判断截屏视图框是否显示
-     */
-    private static boolean isScreenShotViewShow = false;
     public static  PDFActivity THIS;
     /**
      * 判断是否为预览pdf模式
@@ -131,7 +121,11 @@ public class PDFActivity extends Activity implements ScrollListener{
      * 判断是否正在书写
      */
     public static boolean isWriting = false;
+
     private Bitmap bitmap = null;
+
+    //弹出框提示
+    private CustomProgressDialog customDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,75 +149,100 @@ public class PDFActivity extends Activity implements ScrollListener{
     }
 
     private void init(){
-        id = getIntent().getStringExtra("id");
-        fid = getIntent().getStringExtra("fid");
-        feature = getIntent().getStringExtra("feature");
-        in_path = Environment.getExternalStorageDirectory().getPath() + "/456.pdf";//"/"+id+".pdf";
+        socketMessage = (SocketMessage) getIntent().getSerializableExtra("sMessage");
+        Log.e("TAG", "init: 模板id::::::::::"+socketMessage.getFeature());
+        in_path = Environment.getExternalStorageDirectory().getPath() + "/"+socketMessage.getId()+".pdf";
         out_path = in_path.substring(0, in_path.length() - 4) + "1.pdf";
         try {
-            muPDFCore = new MuPDFCore(in_path);//PDF的文件路径
+            //PDF的文件路径 解析pdf
+            muPDFCore = new MuPDFCore(in_path);
             readerView.setScrollListener(this);
             readerView.setAdapter(new MuPDFPageAdapter(this, muPDFCore));
             readerView.setPageNum(muPDFCore.countPages());
+            readerView.setEnabled(false);
             if (readerView.getPageNum() == 1){
-                mScreenShot.setVisibility(View.VISIBLE);
+                rlSign.setVisibility(View.VISIBLE);
             }
+            readerView.setDisplayedViewIndex(0);
             View view = LayoutInflater.from(this).inflate(R.layout.signature_layout, null);
             signatureView = (SignatureView) view.findViewById(R.id.qianming);
-            readerView.setDisplayedViewIndex(0);
-            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
+            signCloseTv = (TextView) view.findViewById(R.id.tv_close_sign);
+            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
+//            popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        //搜索事件
-        mSearchTask = new SearchTask(this, muPDFCore) {
+    /**提示消息弹出框*/
+    private void Dialog(){
+        int screenView = PDFActivity.this.getWindowManager().getDefaultDisplay().getWidth();
+        customDialog = new CustomProgressDialog(PDFActivity.this,screenView, R.layout.progress_dialog,R.style.custom_dialog);
+        customDialog.show();
+        TextView tv_dialog_msg_text = (TextView)customDialog.findViewById(R.id.tv_dialog_common_msg);
+        TextView tv_dialog_customer_text = (TextView)customDialog.findViewById(R.id.tv_dialog_common_customer);
+        TextView tv_dialog_text = (TextView)customDialog.findViewById(R.id.tv_dialog_common_context);
+        TextView tv_dialog_go = (TextView)customDialog.findViewById(R.id.tv_dialog_common_go);
+        TextView tv_dialog_close = (TextView)customDialog.findViewById(R.id.tv_dialog_common_close);
+        ImageView sign_image = (ImageView) customDialog.findViewById(R.id.signImage);
+
+        tv_dialog_msg_text.setText("温馨提示！");
+        tv_dialog_customer_text.setText("尊敬的客户：");
+        tv_dialog_text.setText("请按下方图例提示操作");
+        if (socketMessage.getFeature().equals("CONTRACT_DIGITIZATION")){
+            sign_image.setImageResource(R.drawable.icon_sign);
+        }else if (socketMessage.getFeature().equals("CHARGE_SIGNATURE")){
+            sign_image.setImageResource(R.drawable.icon_cus_sign);
+        }
+
+        tv_dialog_go.setText("确定");
+        customDialog.setCanceledOnTouchOutside(false);
+        tv_dialog_go.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void onTextFound(SearchTaskResult result) {
-                SearchTaskResult.set(result);
-                // Ask the ReaderView to move to the resulting page
-                readerView.setDisplayedViewIndex(result.pageNumber);
-                // Make the ReaderView act on the change to SearchTaskResult
-                // via overridden onChildSetup method.
-                readerView.resetupChildren();
+            public void onClick(View view) {
+                TouchClick();
+                readerView.setEnabled(true);
+                customDialog.dismiss();
             }
-        };
+        });
+
+        tv_dialog_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                customDialog.dismiss();
+            }
+        });
     }
 
     private void initClick(){
+        signCloseTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlClear.setVisibility(View.GONE);
+                rlSave.setVisibility(View.GONE);
+                rlSign.setVisibility(View.VISIBLE);
+                if (signatureView.getHasDraw()){
+                    signatureView.clear();
+                }
+                readerView.setEnabled(true);
+                popupWindow.dismiss();
+            }
+        });
         rlSign.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 if (rlSave.getVisibility() == View.GONE) {
-                    if(screenShotView.isShown()) {
-                        screenShotView.setVisibility(View.INVISIBLE);
-                        popupWindow.showAsDropDown(rlSign, 0, 0);
-                        isWriting = true;
-                    }
-                    rlSave.setVisibility(View.VISIBLE);
-                    rlClear.setVisibility(View.VISIBLE);
-                    mScreenShot.setVisibility(View.VISIBLE);
-                    textSign.setText("点击阅读");
+                    Dialog();
+                    rlSign.setVisibility(View.VISIBLE);
                     imgBtnSign.setContentDescription("锁定屏幕");
-                    search(1);
+                    readerView.setEnabled(false);
                 } else {
-                    if (screenShotView.isShown()){
-                        rlSave.setVisibility(View.VISIBLE);
-                        rlClear.setVisibility(View.VISIBLE);
-                        screenShotView.setVisibility(View.INVISIBLE);
-                        popupWindow.showAsDropDown(rlSign, 0, 0);
-                        isWriting = true;
-                    }else {
-                        popupWindow.dismiss();
-                        isWriting = false;
-                        signatureView.clear();
-                        rlSave.setVisibility(View.GONE);
-                        rlClear.setVisibility(View.GONE);
-                        mScreenShot.setVisibility(View.GONE);
-                        rlSubmit.setVisibility(View.GONE);
-                        textSign.setText("点击签名");
-                    }
+                    popupWindow.dismiss();
+                    isWriting = false;
+                    signatureView.clear();
+                    rlSave.setVisibility(View.GONE);
+                    readerView.setEnabled(true);
                 }
             }
         });
@@ -231,9 +250,7 @@ public class PDFActivity extends Activity implements ScrollListener{
         rlSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isScreenShotViewShow){
-                    showToast("请先选定书写区域!");
-                }else if (!signatureView.getHasDraw()){
+                if (!signatureView.getHasDraw()){
                     showToast("请先签名!");
                 }else {
                     float scale = readerView.getmScale();///得到放大因子
@@ -248,57 +265,21 @@ public class PDFActivity extends Activity implements ScrollListener{
                     bitmap = Bitmap.createBitmap(signatureView.getWidth(), signatureView.getHeight(), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
                     signatureView.draw(canvas);
+
                     savePdf.setBitmap(bitmap);
                     save_pdf = new Save_Pdf(savePdf);
                     save_pdf.execute();
-                    popupWindow.dismiss();
+
                     isPreviewPDF = true;
                     rlSave.setVisibility(View.GONE);
                     rlSign.setVisibility(View.GONE);
-                    mScreenShot.setVisibility(View.GONE);
-                    screenShotView.setVisibility(View.GONE);
                     rlClear.setVisibility(View.VISIBLE);
                     rlSubmit.setVisibility(View.VISIBLE);
                     ReaderView.NoTouch = true;
                     //显示隐藏probar
                     progressDialog = ProgressDialog.show(PDFActivity.this, null, "正在存储...");
                     signatureView.clear();
-                }
-            }
-        });
-
-        mScreenShot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(screenShotView == null){
-                    screenShotView = new ScreenShotView(PDFActivity.this);
-                }
-                if(isPreviewPDF){
-                    Toast.makeText(PDFActivity.this, "预览模式", Toast.LENGTH_SHORT).show();
-                }else if(isWriting){
-                    Toast.makeText(PDFActivity.this, "画板已打开，请签名！", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(!screenShotView.isShown() && !isScreenShotViewShow){
-                        PDFActivity.this.addContentView(screenShotView,
-                                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                        ViewGroup.LayoutParams.WRAP_CONTENT));
-                        //设置截屏框
-                        screenShotView.setSeat(x, y, x+400, y+120);
-                        screenShotView.postInvalidate();
-                        isScreenShotViewShow = true;
-                    }
-                    if(imgBtnSign.getContentDescription().equals("锁定屏幕")){
-                        ReaderView.NoTouch = false;
-                        imgBtnSign.setContentDescription("释放屏幕");
-                        screenShotView.setVisibility(View.VISIBLE);
-                        rlSign.setVisibility(View.VISIBLE);
-                        textSign.setText("点击签名");
-                    }else{
-                        ReaderView.NoTouch = true;
-                        imgBtnSign.setContentDescription("锁定屏幕");
-                        screenShotView.setVisibility(View.INVISIBLE);
-                        rlSign.setVisibility(View.GONE);
-                    }
+                    popupWindow.dismiss();
                 }
             }
         });
@@ -313,11 +294,15 @@ public class PDFActivity extends Activity implements ScrollListener{
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
                             // TODO Auto-generated method stub
+                            if (readerView.getPageNum() == 1){
+                                rlSign.setVisibility(View.VISIBLE);
+                                readerView.setEnabled(false);
+                                popupWindow.dismiss();
+                            }
                             rlSubmit.setVisibility(View.GONE);
                             rlSave.setVisibility(View.GONE);
                             rlClear.setVisibility(View.GONE);
-                            mScreenShot.setVisibility(View.GONE);
-                            textSign.setText("点击签名");
+
                             imgBtnSign.setContentDescription("锁定屏幕");
                             File file = new File(out_path);
                             if (file.exists()){
@@ -325,13 +310,8 @@ public class PDFActivity extends Activity implements ScrollListener{
                             }
                             isPreviewPDF = false;//重新解析pdf，恢复初始值
                             ReaderView.NoTouch = true;//重新释放对pdf手势操作
-                            isScreenShotViewShow = false;//重新解析pdf，恢复初始值
-                            isWriting = false;
-                            if (screenShotView != null){
-                                ((ViewGroup) screenShotView.getParent()).removeView(screenShotView);
-                            }
-                            SearchTaskResult.set(null);
                             init();
+                            initClick();
                         }
                     })
                     .setNegativeButton("取消", null)
@@ -359,9 +339,9 @@ public class PDFActivity extends Activity implements ScrollListener{
                 RequestBody fileBody = RequestBody.create(MEDIA_TYPE_MARKDOWN, file);
                 RequestBody requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("id", id)
-                        .addFormDataPart("fid",fid)
-                        .addFormDataPart("feature",feature)
+                        .addFormDataPart("id", socketMessage.getId())
+                        .addFormDataPart("fid",socketMessage.getFid())
+                        .addFormDataPart("feature",socketMessage.getFeature())
                         .addFormDataPart("file", file.getName(),fileBody).build();
                 Request request = new Request.Builder().url(actionUrl).post(requestBody).build();
                 okHttpClient.newCall(request).enqueue(new Callback() {
@@ -393,42 +373,62 @@ public class PDFActivity extends Activity implements ScrollListener{
         Toast.makeText(PDFActivity.this, str, Toast.LENGTH_LONG).show();
     }
 
-    //搜索匹配pdf文件内容
-    private void search(int direction) {
-        int displayPage = readerView.getDisplayedViewIndex();
-        SearchTaskResult r = SearchTaskResult.get();
-        int searchPage = r != null ? r.pageNumber : -1;
-        mSearchTask.go(mSearchText, direction, displayPage, searchPage);
-    }
-
     @Override
     public void scroll(boolean lastPage) {
         if (readerView.getPageNum() == 1){
             if (isPreviewPDF){
-                mScreenShot.setVisibility(View.GONE);
+                rlSign.setVisibility(View.GONE);
             }else {
-                mScreenShot.setVisibility(View.VISIBLE);
+                rlSign.setVisibility(View.VISIBLE);
             }
             return;
         }
         if (lastPage){
-            mScreenShot.setVisibility(View.VISIBLE);
+            rlSign.setVisibility(View.VISIBLE);
             if (isPreviewPDF){
                 rlClear.setVisibility(View.VISIBLE);
                 rlSubmit.setVisibility(View.VISIBLE);
-                mScreenShot.setVisibility(View.GONE);
+                rlSign.setVisibility(View.GONE);
+            }else {
+                rlSave.setVisibility(View.GONE);
+                rlClear.setVisibility(View.GONE);
+                rlSign.setVisibility(View.VISIBLE);
             }
+            readerView.setEnabled(false);
+            popupWindow.dismiss();
         }else {
             rlSign.setVisibility(View.GONE);
             rlSave.setVisibility(View.GONE);
-            rlClear.setVisibility(View.GONE);
-            rlSubmit.setVisibility(View.GONE);
-            mScreenShot.setVisibility(View.GONE);
-            if(screenShotView != null) {
-                screenShotView.setVisibility(View.INVISIBLE);
-                imgBtnSign.setContentDescription("锁定屏幕");
+            readerView.setEnabled(false);
+            popupWindow.dismiss();
+            if (isPreviewPDF){
+                rlClear.setVisibility(View.VISIBLE);
+                rlSubmit.setVisibility(View.VISIBLE);
+                popupWindow.dismiss();
+            }else {
+                rlClear.setVisibility(View.GONE);
+                rlSubmit.setVisibility(View.GONE);
+                popupWindow.dismiss();
             }
         }
+    }
+
+    private void TouchClick(){
+        readerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (isPreviewPDF){
+                    popupWindow.dismiss();
+                }else {
+                    rlSave.setVisibility(View.VISIBLE);
+                    rlClear.setVisibility(View.VISIBLE);
+                    rlSign.setVisibility(View.GONE);
+                    readerView.screenShot(event);
+                    popupWindow.showAsDropDown(rlSign, 0, 0);
+                }
+                return false;
+            }
+        });
     }
 
     /*

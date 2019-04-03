@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 /**
- * @author shiming
- * @version v1.0 create at 2017/10/10
+ * @author bangware
+ * @version v1.0 create at 2019/2/10
  * @des
  */
 public class PenUtlis {

@@ -7,11 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -20,17 +18,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jammy.pdf_demo.R;
 import com.example.jammy.pdf_demo.config.Model;
-import com.example.jammy.pdf_demo.server.JsonUtil;
 import com.example.jammy.pdf_demo.server.SocketService;
-import com.example.jammy.pdf_demo.user.SocketMessage;
 import com.example.jammy.pdf_demo.websocket.WsManager;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,7 +77,6 @@ public class SocketActivity extends Activity{
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
 
-        initView();
         initClick();
         /**
          * 绑定服务
@@ -91,17 +84,13 @@ public class SocketActivity extends Activity{
         Intent intent = new Intent(this, SocketService.class);
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("IP", Context.MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getSharedPreferences("IP", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("ip", "");
         boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
         if (!isFirstRun){
             Model.FILEURL = "http://"+name+"/resource/";
             Model.HOST = name+"/webSocket/A8ED2ED1E0374BFB94C37E99B7CC3551";
-        }
-    }
-
-    private void initView() {
-        getIMEI(getApplicationContext());
+        }*/
     }
 
     private void initClick(){
@@ -112,76 +101,6 @@ public class SocketActivity extends Activity{
                 startActivity(intent);
             }
         });
-    }
-
-    private void getPhoneNumber(String serialNumber){
-        String url = Model.FILEURL+"mobileServiceManager/user/signOut.page?serialNumber="+serialNumber;
-        OkHttpClient okHttpClient = new OkHttpClient();
-        String format = String.format(url);
-        Log.e("tag", "format-------------: "+format);
-        Request request = new Request.Builder().url(format).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Toast.makeText(SocketActivity.this, "服务器接口数据请求失败！", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String responseStr = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(responseStr);
-                    Log.e("tag", "getPhoneNumber: "+jsonObject.getString("status")+"================>"+jsonObject.getString("msg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-    }
-    public String getIMEI(Context context)
-    {
-        TelephonyManager TelephonyMgr = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
-        String szImei = TelephonyMgr.getDeviceId();
-
-        String m_szDevIDShort = "35" + //we make this look like a valid IMEI
-                Build.BOARD.length()%10 + Build.BRAND.length()%10 +
-                Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
-                Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
-                Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
-                Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
-                Build.TAGS.length()%10 + Build.TYPE.length()%10 + Build.USER.length()%10 ; //13 digits
-
-        String m_szAndroidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-
-        WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        String m_szWLANMAC = wm.getConnectionInfo().getMacAddress();
-
-        BluetoothAdapter m_BluetoothAdapter = BluetoothAdapter.getDefaultAdapter();; // Local Bluetooth adapter
-        String m_szBTMAC = m_BluetoothAdapter.getAddress();
-
-        String m_szLongID = szImei + m_szDevIDShort + m_szAndroidID+ m_szWLANMAC + m_szBTMAC;
-        // compute md5
-        MessageDigest m = null;
-        try {
-            m = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        m.update(m_szLongID.getBytes(),0,m_szLongID.length());
-        byte p_md5Data[] = m.digest();
-        String m_szUniqueID = new String();
-        for (int i=0;i<p_md5Data.length;i++) {
-            int b =  (0xFF & p_md5Data[i]);
-            if (b <= 0xF)
-                m_szUniqueID+="0";
-            m_szUniqueID+=Integer.toHexString(b);
-        }
-        m_szUniqueID = m_szUniqueID.toUpperCase();
-//        Log.e("tag", "m_szUniqueID-------------: "+m_szUniqueID);
-//        getPhoneNumber(m_szUniqueID);
-        return m_szUniqueID;
     }
 
     @Override

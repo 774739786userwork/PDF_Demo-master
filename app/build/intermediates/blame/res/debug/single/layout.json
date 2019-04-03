@@ -176,6 +176,10 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\notification_template_big_media.xml"
     },
     {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_user_sign.xml",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\layout\\activity_user_sign.xml"
+    },
+    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_singlechoice_material.xml",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\select_dialog_singlechoice_material.xml"
     },

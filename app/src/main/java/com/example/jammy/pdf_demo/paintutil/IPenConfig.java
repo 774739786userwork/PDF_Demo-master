@@ -23,7 +23,7 @@ public interface IPenConfig {
     int STROKE_TYPE_BRUSH = 2;// 毛笔
 
     //设置笔的宽度
-    int PEN_WIDTH = 14;
+    int PEN_WIDTH = 18;
     //笔的颜色
     int PEN_CORLOUR= Color.parseColor("#000000");
 

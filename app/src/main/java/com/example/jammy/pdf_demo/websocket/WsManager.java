@@ -30,7 +30,7 @@ public class WsManager {
     private User user = null;
     private SharedPreferences sharedPreferences;
 
-    private static final long HEARTBEAT_INTERVAL = 30000;//心跳间隔
+    private static final long HEARTBEAT_INTERVAL = 10000;//心跳间隔
 
     private WsManager(){
 
@@ -54,7 +54,7 @@ public class WsManager {
             /**
              * 初始化连接
              */
-            ws = new WebSocketFactory().createSocket("ws://"+Model.HOST+user.getUser_id(), CONNECT_TIMEOUT)
+            ws = new WebSocketFactory().createSocket("ws://"+Model.HOST, CONNECT_TIMEOUT)
                     .setFrameQueueSize(FRAME_QUEUE_SIZE)//设置帧队列最大值为5
                     .setMissingCloseFrameAllowed(false)//设置不允许服务端关闭连接却未发送关闭帧
                     .addListener(mListener = new WsListener())//添加回调监听
@@ -66,16 +66,13 @@ public class WsManager {
         }
     }
 
-
     public void setStatus(WsStatus status) {
         this.mStatus = status;
     }
 
-
     public WsStatus getStatus() {
         return mStatus;
     }
-
 
     public void disconnect() {
         if (ws != null) {
@@ -83,7 +80,6 @@ public class WsManager {
             ws.disconnect();
         }
     }
-
 
     private Handler mHandler = new Handler();
 
@@ -125,7 +121,7 @@ public class WsManager {
         @Override
         public void run() {
             try {
-                ws = new WebSocketFactory().createSocket("ws://"+Model.HOST+user.getUser_id(), CONNECT_TIMEOUT)
+                ws = new WebSocketFactory().createSocket("ws://"+Model.HOST, CONNECT_TIMEOUT)
                         .setFrameQueueSize(FRAME_QUEUE_SIZE)//设置帧队列最大值为5
                         .setMissingCloseFrameAllowed(false)//设置不允许服务端关闭连接却未发送关闭帧
                         .addListener(mListener = new WsListener())//添加回调监听

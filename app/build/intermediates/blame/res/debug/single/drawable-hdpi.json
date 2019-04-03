@@ -12,12 +12,20 @@
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\progress_loading_image_01.png"
     },
     {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\g_title_bar_back_icon_hover.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\g_title_bar_back_icon_hover.png"
+    },
+    {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\icon_username.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\icon_username.png"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\beijing.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\beijing.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\default_ptr_rotate2.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\default_ptr_rotate2.png"
     },
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\mc_btn_top_unpressed.9.png",
@@ -38,5 +46,9 @@
     {
         "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\checkbox_pressed.png",
         "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\checkbox_pressed.png"
+    },
+    {
+        "merged": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\g_title_bar_back_icon.png",
+        "source": "D:\\studioProject\\PDF_Demo-master\\PDF_Demo-master\\app\\src\\main\\res\\drawable-hdpi\\g_title_bar_back_icon.png"
     }
 ]

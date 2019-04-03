@@ -15,8 +15,7 @@ import com.example.jammy.pdf_demo.R;
 
 
 /**
- * @author shiming
- * @version v1.0 create at 2017/10/10
+ * @author bangware
  * @des 水彩笔
  */
 public class BrushPen extends BasePenExtend {
@@ -183,7 +182,6 @@ public class BrushPen extends BasePenExtend {
     }
     //对每个笔设置了透明度 如果这里不设置一个新的笔的话，每次down事件发生了，就会把一起的绘制完成的东西，透明度也发生改变，
     //这里还有想到更好的方法，
-    // TODO: 2017/10/18
     //虽然这样设置了，但是还是有问题，每次down的时候，虽然是一根新的笔，但是原来的笔始终有点小小的问题
     @Override
     protected Paint getNewPaint(Paint paint) {

@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jammy.pdf_demo.config.Model;
+import com.example.jammy.pdf_demo.user.SocketMessage;
 import com.example.jammy.pdf_demo.util.MyActivityManager;
 /*
  *下载pdf
@@ -43,10 +44,7 @@ public class MainActivity extends Activity {
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
     public static final int EXTERNAL_STORAGE_REQ_CODE = 10 ;
-
-    String id = "";
-    String fid = "";
-    String feature = "";
+    private SocketMessage socketMessage = null;
 
     private Handler handler = new Handler() {
         @Override
@@ -76,12 +74,10 @@ public class MainActivity extends Activity {
         MyActivityManager.getInstance().pushActivity(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        id = getIntent().getStringExtra("id");
-        fid = getIntent().getStringExtra("fid");
-        feature = getIntent().getStringExtra("feature");
+        socketMessage = (SocketMessage) getIntent().getSerializableExtra("sMessage");
+
         requestPermission();
     }
-
 
     @Override
     protected void onResume() {
@@ -111,7 +107,6 @@ public class MainActivity extends Activity {
         }else{
             downloadPdfFile();
         }
-
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -132,14 +127,13 @@ public class MainActivity extends Activity {
         }
     }
     private void downloadPdfFile(){
-        final String url = Model.FILEURL+id;
+        final String url = Model.FILEURL + socketMessage.getId();
         okHttpClient = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 if(null != call){
-                    Log.e("h_bl", "onFailure"+e.getMessage());
                     Message msg = handler.obtainMessage();
                     msg.what = 118;
                     handler.sendMessage(msg);
@@ -156,7 +150,7 @@ public class MainActivity extends Activity {
                 try {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
-                    File file = new File(SDPath,"/"+id+".pdf");
+                    File file = new File(SDPath,"/"+socketMessage.getId()+".pdf");
                     fos = new FileOutputStream(file);
                     long sum = 0;
                     while ((len = is.read(buf)) != -1) {
@@ -173,9 +167,7 @@ public class MainActivity extends Activity {
                     fos.close();
                     Log.e("h_bl", "文件下载成功");
                     Intent intent = new Intent(MainActivity.this,PDFActivity.class);
-                    intent.putExtra("id",id);
-                    intent.putExtra("fid",fid);
-                    intent.putExtra("feature",feature);
+                    intent.putExtra("sMessage",socketMessage);
                     startActivity(intent);
                     MyActivityManager.getInstance().popActivity(MainActivity.this);
                 } catch (Exception e) {

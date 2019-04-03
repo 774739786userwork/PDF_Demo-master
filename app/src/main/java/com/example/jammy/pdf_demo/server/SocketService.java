@@ -86,7 +86,7 @@ public class SocketService extends Service {
      * 创建Binder对象，返回给客户端即Activity使用，提供数据交换的接口
      */
     public class LocalBinder extends Binder {
-        // 声明一个方法，getService。（提供给客户端调用）
+        // 声明一个方法，getService（提供给客户端调用）
         public SocketService getService() {
             // 返回当前对象LocalService,这样我们就可在客户端端调用Service的公共方法了
             return SocketService.this;
@@ -100,7 +100,6 @@ public class SocketService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy()");
         sendBroadcast(new Intent("socketService_killed"));
         unregisterReceiver(restartBR);
     }
@@ -108,14 +107,12 @@ public class SocketService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.e(TAG, "onUnbind(Intent intent)");
         releaseWakeLock();
         return super.onUnbind(intent);
     }
 
     @Override
     public void onRebind(Intent intent) {
-        Log.e(TAG, "onBind(Intent intent)");
         super.onRebind(intent);
     }
 
@@ -127,7 +124,6 @@ public class SocketService extends Service {
      */
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e(TAG, "onRebind(Intent intent)");
         return binder;
     }
 }

@@ -3,10 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.example.jammy.pdf_demo.SignatureView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/qianming" />
+    android:layout_height="match_parent"
+    android:alpha="0.8">
 
+    <LinearLayout
+        android:id="@+id/close_linear"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#ccc"
+        android:layout_marginTop="300dp"
+        android:layout_marginBottom="200dp">
+
+        <com.example.jammy.pdf_demo.SignatureView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/qianming" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_close_sign"
+        android:layout_width="@dimen/w100dip"
+        android:layout_height="@dimen/w100dip"
+        android:background="@drawable/icon_close"
+        android:layout_toRightOf="@+id/close_linear"
+        android:layout_alignTop="@+id/close_linear"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="-40dp"
+        android:layout_marginTop="-23dp"/>
 </RelativeLayout>

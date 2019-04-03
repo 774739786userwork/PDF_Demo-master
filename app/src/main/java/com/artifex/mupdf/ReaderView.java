@@ -21,7 +21,6 @@ import com.example.jammy.pdf_demo.ScrollListener;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-import static android.content.ContentValues.TAG;
 
 public class ReaderView extends AdapterView<Adapter>
         implements GestureDetector.OnGestureListener, View.OnTouchListener,
@@ -95,8 +94,6 @@ public class ReaderView extends AdapterView<Adapter>
         mScaleGestureDetector = new ScaleGestureDetector(context, this);
         mScroller = new Scroller(context);
     }
-
-    protected void onHit(Hit item) {};
 
     public void setLinksEnabled(boolean b) {
         resetupChildren();
@@ -699,32 +696,30 @@ public class ReaderView extends AdapterView<Adapter>
         int y = 0 ;
         int m = 0 ;
         int n = 0 ;
-        //oX = (int) event.getX();
-        //oY = (int) event.getY();
         if(oX -120 <= 0){
             if(oY - 90 <= 0){
                 //左边界和上边界同时出界
                 x = 0;
                 y = 0;
-                m = 400;
+                m = 200;
                 n = 120;
             }else if(oY + 90 >= screenHeight){
                 //左边界和下边界同时出界
                 x = 0;
                 y = screenHeight - 120;
-                m = 400;
+                m = 200;
                 n = screenHeight;
             }else{
                 //只有左边界
                 x = 0;
                 y = oY - 90;
-                m = 400;
+                m = 200;
                 n = y + 120;
             }
         }else if(oX + 120 >= screenWidth){
             if(oY - 90 <= 0){
                 //右边界和上边界同时出界
-                x = screenWidth - 400;
+                x = screenWidth - 200;
                 y = 0;
                 m = screenWidth;
                 n = y + 120;
@@ -734,7 +729,7 @@ public class ReaderView extends AdapterView<Adapter>
 
             }else{
                 //只有右边界出界
-                x = screenWidth - 400;
+                x = screenWidth - 200;
                 y = oY - 90;
                 m = screenWidth;
                 n = y + 120;
@@ -743,25 +738,25 @@ public class ReaderView extends AdapterView<Adapter>
             //只有上边界出界
             x = oX - 90;
             y = 0;
-            m = x + 400;
+            m = x + 200;
             n = y + 120;
         }else if(oY + 90 >= screenHeight){
             //只有下边界出界
             x = oX - 120;
             y = screenHeight - 120;
-            m = x + 400;
+            m = x + 200;
             n = y +120;
         }else{
             //都不出界
             x = oX - 120;
             y = oY - 90;
-            m = x + 400;
+            m = x + 200;
             n = y + 120;
         }
         //根据屏幕坐标，显示要截图的区域范围
         PDFActivity.x = x;
         PDFActivity.y = y;
-        PDFActivity.screenShotView.setSeat(x, y, m, n);
-        PDFActivity.screenShotView.postInvalidate();
+//        PDFActivity.screenShotView.setSeat(x, y, m, n);
+//        PDFActivity.screenShotView.postInvalidate();
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_user_sign"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="false"
+        android:id="@+id/rl_top"
+        android:background="#097ce0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="签名"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <com.example.jammy.pdf_demo.SignatureView
+        android:layout_below="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/signature_pad" />
+
+    <ImageView
+        android:id="@+id/iv_clear"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/sign_clear" />
+
+    <ImageView
+        android:id="@+id/iv_commit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/finish" />
+
+    <ImageView
+        android:id="@+id/signIv"
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        android:scaleType="fitCenter"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

@@ -11,6 +11,7 @@ import com.example.jammy.pdf_demo.MainActivity;
 import com.example.jammy.pdf_demo.R;
 import com.example.jammy.pdf_demo.server.JsonUtil;
 import com.example.jammy.pdf_demo.user.SocketMessage;
+import com.example.jammy.pdf_demo.util.UserSignActivity;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -43,16 +44,18 @@ public class WsListener extends WebSocketAdapter {
         }else {
             SocketMessage sMessage = JsonUtil.parseJson(text);
             sendNotification(sMessage);
-            Intent intent = new Intent(WsApplication.getContext(), MainActivity.class);
-            intent.putExtra("id",sMessage.getId());
-            intent.putExtra("fid",sMessage.getFid());
-            intent.putExtra("feature",sMessage.getFeature());
-            Logger.t(TAG).d(text);
+            Intent intent = null;
+            if (null != sMessage.getUserId() && !sMessage.getUserId().equals("")){
+                intent = new Intent(WsApplication.getContext(), UserSignActivity.class);
+            }else {
+                intent = new Intent(WsApplication.getContext(), MainActivity.class);
+            }
+            intent.putExtra("sMessage",sMessage);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             WsApplication.getContext().startActivity(intent);
+            Logger.t(TAG).d(text);
         }
     }
-
 
     @Override
     public void onConnected(WebSocket websocket, Map<String, List<String>> headers)

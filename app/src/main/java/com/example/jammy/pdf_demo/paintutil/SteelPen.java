@@ -8,8 +8,8 @@ import android.graphics.RectF;
 import static com.example.jammy.pdf_demo.paintutil.IPenConfig.STEPFACTOR;
 
 /**
- * @author shiming
- * @version v1.0 create at 2017/10/17
+ * @author bangware
+ * @version v1.0 create at 2019/02/12
  * @des 钢笔
  */
 public class SteelPen extends BasePenExtend {
@@ -46,7 +46,6 @@ public class SteelPen extends BasePenExtend {
     /**
      * 其实这里才是关键的地方，通过画布画椭圆，每一个点都是一个椭圆，这个椭圆的所有细节，逐渐构建出一个完美的笔尖
      * 和笔锋的效果,我觉得在这里需要大量的测试，其实就对低端手机进行排查，看我们绘制的笔的宽度是多少，绘制多少个椭圆
-     * 然后在低端手机上不会那么卡，当然你哪一个N年前的手机给我，那也的卡，只不过需要适中的范围里面
      *
      * @param canvas
      * @param x0
@@ -58,7 +57,7 @@ public class SteelPen extends BasePenExtend {
      * @param paint
      */
     private void drawLine(Canvas canvas, double x0, double y0, double w0, double x1, double y1, double w1, Paint paint) {
-        //求两个数字的平方根 x的平方+y的平方在开方记得X的平方+y的平方=1，这就是一个园
+        //求两个数字的平方根 x的平方+y的平方在开方取得X的平方+y的平方=1，这就是一个圆
         double curDis = Math.hypot(x0 - x1, y0 - y1);
         int steps = 1;
         if (paint.getStrokeWidth() < 6) {
