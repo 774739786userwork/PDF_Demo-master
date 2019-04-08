@@ -1,17 +1,26 @@
 package com.example.jammy.pdf_demo.util;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.example.jammy.pdf_demo.MainActivity;
 import com.example.jammy.pdf_demo.PDFActivity;
 import com.example.jammy.pdf_demo.R;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class SplashActivity extends Activity {
@@ -22,8 +31,57 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         MyActivityManager.getInstance().pushActivity(this);
         setContentView(R.layout.activity_splash);
+        getIMEI(getApplicationContext());
         Message msg = hand.obtainMessage();
         hand.sendMessage(msg);
+    }
+
+    /** 获取设备序列号*/
+    public String getIMEI(Context context)
+    {
+        TelephonyManager TelephonyMgr = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
+        String szImei = TelephonyMgr.getDeviceId();
+
+        String m_szDevIDShort = "35" + //we make this look like a valid IMEI
+                Build.BOARD.length()%10 + Build.BRAND.length()%10 +
+                Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
+                Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
+                Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
+                Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
+                Build.TAGS.length()%10 + Build.TYPE.length()%10 + Build.USER.length()%10 ; //13 digits
+
+        String m_szAndroidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+        String m_szWLANMAC = wm.getConnectionInfo().getMacAddress();
+
+        BluetoothAdapter m_BluetoothAdapter = BluetoothAdapter.getDefaultAdapter();; // Local Bluetooth adapter
+        String m_szBTMAC = m_BluetoothAdapter.getAddress();
+
+        String m_szLongID = szImei + m_szDevIDShort + m_szAndroidID+ m_szWLANMAC + m_szBTMAC;
+        // compute md5
+        MessageDigest m = null;
+        try {
+            m = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        m.update(m_szLongID.getBytes(),0,m_szLongID.length());
+        byte p_md5Data[] = m.digest();
+        String m_szUniqueID = new String();
+        for (int i=0;i<p_md5Data.length;i++) {
+            int b =  (0xFF & p_md5Data[i]);
+            if (b <= 0xF)
+                m_szUniqueID+="0";
+            m_szUniqueID += Integer.toHexString(b);
+        }
+        m_szUniqueID = m_szUniqueID.toUpperCase();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("serialNumber",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("deviceNo", m_szUniqueID);
+        editor.commit();
+        return m_szUniqueID;
     }
 
     Handler hand = new Handler() {

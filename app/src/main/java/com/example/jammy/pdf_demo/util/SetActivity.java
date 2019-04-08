@@ -13,6 +13,7 @@ import android.os.Message;
 import android.provider.Settings;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -126,8 +127,7 @@ public class SetActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (listMap.size() > 0){
-                    getIMEI(getApplicationContext());
-
+                    getPhoneNumber();
                     JSONArray mJsonArray = new JSONArray();
                     JSONObject object = new JSONObject();
                     Iterator<Map.Entry<String, Object>> iterator = listMap.entrySet().iterator();
@@ -188,7 +188,9 @@ public class SetActivity extends Activity {
         }
     };
 
-    private void getPhoneNumber(String serialNumber){
+    private void getPhoneNumber(){
+        SharedPreferences sp = getSharedPreferences("serialNumber",Context.MODE_PRIVATE);
+        String serialNumber = sp.getString("deviceNo", "");
         String url = Model.DEVICEURL;
         progressDialog = ProgressDialog.show(SetActivity.this, null, "正在提交...");
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -258,49 +260,5 @@ public class SetActivity extends Activity {
 
     private void showToast(String str){
         Toast.makeText(SetActivity.this, str, Toast.LENGTH_LONG).show();
-    }
-
-    /** 获取设备序列号*/
-    public String getIMEI(Context context)
-    {
-        TelephonyManager TelephonyMgr = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
-        String szImei = TelephonyMgr.getDeviceId();
-
-        String m_szDevIDShort = "35" + //we make this look like a valid IMEI
-                Build.BOARD.length()%10 + Build.BRAND.length()%10 +
-                Build.CPU_ABI.length()%10 + Build.DEVICE.length()%10 +
-                Build.DISPLAY.length()%10 + Build.HOST.length()%10 +
-                Build.ID.length()%10 + Build.MANUFACTURER.length()%10 +
-                Build.MODEL.length()%10 + Build.PRODUCT.length()%10 +
-                Build.TAGS.length()%10 + Build.TYPE.length()%10 + Build.USER.length()%10 ; //13 digits
-
-        String m_szAndroidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-
-        WifiManager wm = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        String m_szWLANMAC = wm.getConnectionInfo().getMacAddress();
-
-        BluetoothAdapter m_BluetoothAdapter = BluetoothAdapter.getDefaultAdapter();; // Local Bluetooth adapter
-        String m_szBTMAC = m_BluetoothAdapter.getAddress();
-
-        String m_szLongID = szImei + m_szDevIDShort + m_szAndroidID+ m_szWLANMAC + m_szBTMAC;
-        // compute md5
-        MessageDigest m = null;
-        try {
-            m = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        m.update(m_szLongID.getBytes(),0,m_szLongID.length());
-        byte p_md5Data[] = m.digest();
-        String m_szUniqueID = new String();
-        for (int i=0;i<p_md5Data.length;i++) {
-            int b =  (0xFF & p_md5Data[i]);
-            if (b <= 0xF)
-                m_szUniqueID+="0";
-            m_szUniqueID += Integer.toHexString(b);
-        }
-        m_szUniqueID = m_szUniqueID.toUpperCase();
-        getPhoneNumber(m_szUniqueID);
-        return m_szUniqueID;
     }
 }

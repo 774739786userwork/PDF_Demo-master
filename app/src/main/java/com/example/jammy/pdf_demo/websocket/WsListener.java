@@ -98,7 +98,7 @@ public class WsListener extends WebSocketAdapter {
         //状态栏显示的提示，有的手机不显示
         builder.setTicker("温馨提示！");
         //通知栏标题
-        builder.setContentTitle("您有一份合同需要签署");
+        builder.setContentTitle("您有签批文件需要处理！");
         /*//通知栏内容
         builder.setContentText(sMessage.getMessage());
         //通知内容摘要

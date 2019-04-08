@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,7 +38,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UserSignActivity extends Activity {
-    private SignatureView mSignaturePad;
     @Bind(R.id.iv_clear)
     ImageView clearIv;
     @Bind(R.id.iv_commit)
@@ -48,6 +49,7 @@ public class UserSignActivity extends Activity {
     private ProgressDialog progressDialog = null;
 
     private String fileName = null;
+    private SignatureView mSignaturePad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,18 +72,19 @@ public class UserSignActivity extends Activity {
             public void onClick(View view) {
                 mSignaturePad.clear();
                 signimg.setImageBitmap(null);
-                mSignaturePad.setVisibility(View.VISIBLE);
             }
         });
 
         finishIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-                if (signatureBitmap != null){
-                    saveMyBitmap(UserSignActivity.this,signatureBitmap);
+                Bitmap bitmap = Bitmap.createBitmap(mSignaturePad.getWidth(), mSignaturePad.getHeight(), Bitmap.Config.RGB_565);
+                Canvas canvas = new Canvas(bitmap);
+                canvas.drawColor(Color.WHITE);
+                mSignaturePad.draw(canvas);
+                if (bitmap != null){
+                    saveMyBitmap(UserSignActivity.this,bitmap);
                     mSignaturePad.clear();
-                    mSignaturePad.setVisibility(View.GONE);
                 }
             }
         });
@@ -101,7 +104,7 @@ public class UserSignActivity extends Activity {
 
     //保存文件到指定路径
     public void saveMyBitmap(Context context,Bitmap bitmap) {
-        String sdCardDir= Environment.getExternalStorageDirectory()+"/DCIM/";
+        String sdCardDir = Environment.getExternalStorageDirectory()+"/DCIM/";
         File appDir =new File(sdCardDir, "SignImage");
         if (!appDir.exists()) {
             appDir.mkdir();
@@ -110,7 +113,7 @@ public class UserSignActivity extends Activity {
         File file = new File(appDir,fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, fos);
             signimg.setImageBitmap(bitmap);
             sendDataToServer(file);
             fos.flush();
@@ -169,12 +172,7 @@ public class UserSignActivity extends Activity {
             switch (msg.what){
                 case 200:
                     progressDialog.dismiss();
-                    /*File file = new File(fileName);
-                    Log.e("TAG", "handleMessage: 删除=================成功！"+file.getName());
-                    if (file.exists()){
-                        file.delete();
-                        Log.e("TAG", "handleMessage: 删除-------------------------成功！" );
-                    }*/
+                    CommonUtil.deleteFile(Environment.getExternalStorageDirectory()+"/DCIM/SignImage/"+fileName);
                     showToast("保存成功!");
                     Intent intent = new Intent(UserSignActivity.this,SocketActivity.class);
                     startActivity(intent);

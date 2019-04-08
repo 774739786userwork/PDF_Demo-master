@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="400dp">
+	android:layout_height="300dp">
 	<LinearLayout
 		android:id="@+id/ll_common_dialog"
 		android:layout_width="260dp"
-		android:layout_height="300dp"
+		android:layout_height="230dp"
 		android:layout_centerInParent="true"
 		android:orientation="vertical"
 		android:background="@drawable/bg_c13939_corners_30">
@@ -55,6 +55,7 @@
 			android:layout_marginLeft="25dp"
 			android:layout_marginTop="15dp"
 			android:textSize="15sp"
+			android:visibility="gone"
 			android:textColor="#FF00FF"
 			android:lineSpacingExtra="@dimen/h10dip"
 			android:text="如图："/>
@@ -64,6 +65,7 @@
 			android:layout_width="200dp"
 			android:layout_height="50dp"
 			android:layout_gravity="center"
+			android:visibility="gone"
 			android:background="@drawable/bg_image_border"/>
 		<!--确定-->
 		<TextView

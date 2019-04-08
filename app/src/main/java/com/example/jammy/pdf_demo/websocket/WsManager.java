@@ -27,7 +27,7 @@ public class WsManager {
     private String url = "";
     private static final int FRAME_QUEUE_SIZE = 5;
     private static final int CONNECT_TIMEOUT = 5000;
-    private User user = null;
+    private String serialNumber = "";
     private SharedPreferences sharedPreferences;
 
     private static final long HEARTBEAT_INTERVAL = 10000;//心跳间隔
@@ -48,13 +48,13 @@ public class WsManager {
     }
 
     public void init() {
-        sharedPreferences = WsApplication.getContext().getSharedPreferences(User.SHARED_NAME,MODE_PRIVATE);
-        user = User.getInstance().readFromSharedPreferences(sharedPreferences);
+        sharedPreferences = WsApplication.getContext().getSharedPreferences("serialNumber",Context.MODE_PRIVATE);
+        serialNumber = sharedPreferences.getString("deviceNo", "");
         try {
             /**
              * 初始化连接
              */
-            ws = new WebSocketFactory().createSocket("ws://"+Model.HOST, CONNECT_TIMEOUT)
+            ws = new WebSocketFactory().createSocket("ws://"+Model.HOST + serialNumber, CONNECT_TIMEOUT)
                     .setFrameQueueSize(FRAME_QUEUE_SIZE)//设置帧队列最大值为5
                     .setMissingCloseFrameAllowed(false)//设置不允许服务端关闭连接却未发送关闭帧
                     .addListener(mListener = new WsListener())//添加回调监听
@@ -121,7 +121,7 @@ public class WsManager {
         @Override
         public void run() {
             try {
-                ws = new WebSocketFactory().createSocket("ws://"+Model.HOST, CONNECT_TIMEOUT)
+                ws = new WebSocketFactory().createSocket("ws://"+Model.HOST + serialNumber, CONNECT_TIMEOUT)
                         .setFrameQueueSize(FRAME_QUEUE_SIZE)//设置帧队列最大值为5
                         .setMissingCloseFrameAllowed(false)//设置不允许服务端关闭连接却未发送关闭帧
                         .addListener(mListener = new WsListener())//添加回调监听

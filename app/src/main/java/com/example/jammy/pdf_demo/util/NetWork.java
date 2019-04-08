@@ -9,7 +9,6 @@ import android.net.NetworkInfo.State;
 
 /**
  * 网络判断工具类
- * @author luming.tang
  * */
 public class NetWork {
 
@@ -50,7 +49,6 @@ public class NetWork {
 	
 	
 	/**
-	 * @author luming.tang
 	 * 获取当前的网络状态  -1：没有网络  1：WIFI网络2：wap网络3：net网络
 	 * @param context
 	 * @return

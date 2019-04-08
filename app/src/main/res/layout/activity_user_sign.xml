@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_user_sign"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ccc">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,11 +22,32 @@
             android:textSize="18sp"/>
     </RelativeLayout>
 
-    <com.example.jammy.pdf_demo.SignatureView
-        android:layout_below="@+id/rl_top"
+
+
+    <LinearLayout
+        android:id="@+id/close_linear"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/signature_pad" />
+        android:orientation="vertical"
+        android:layout_height="300dp"
+        android:layout_marginTop="300dp"
+        android:background="@color/white"
+        android:layout_below="@+id/rl_top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:layout_gravity="center"
+            android:text="请在此处签名！"
+            android:textSize="16sp"
+            android:layout_below="@+id/rl_top"/>
+
+        <com.example.jammy.pdf_demo.SignatureView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/signature_pad"/>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_clear"
@@ -49,9 +71,9 @@
 
     <ImageView
         android:id="@+id/signIv"
-        android:layout_width="500dp"
-        android:layout_height="400dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:scaleType="fitCenter"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>

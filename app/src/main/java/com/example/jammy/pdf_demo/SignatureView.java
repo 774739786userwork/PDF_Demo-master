@@ -15,6 +15,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+
 import com.example.jammy.pdf_demo.paintutil.BasePenExtend;
 import com.example.jammy.pdf_demo.paintutil.BrushPen;
 import com.example.jammy.pdf_demo.paintutil.IPenConfig;
@@ -132,35 +134,6 @@ public class SignatureView extends View {
 
     public boolean isEmpty() {
         return mIsEmpty;
-    }
-
-    public Bitmap getSignatureBitmap() {
-        Bitmap originalBitmap = getTransparentSignatureBitmap();
-        Bitmap whiteBgBitmap = Bitmap.createBitmap(originalBitmap.getWidth(), originalBitmap.getHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(whiteBgBitmap);
-        canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(originalBitmap, 0, 0, null);
-        return whiteBgBitmap;
-    }
-
-    public Bitmap getTransparentSignatureBitmap() {
-        ensureSignatureBitmap();
-        return mBitmap;
-    }
-
-    public void ensureSignatureBitmap() {
-        if (mBitmap == null) {
-            mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-            canvas = new Canvas(mBitmap);
-
-            //设置背景图图片  要指定图片大小  否则下面注释的方法会放大
-            canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.qianming),
-                    new Rect(0, 0, BitmapFactory.decodeResource(getResources(), R.drawable.qianming).getWidth(),
-                            BitmapFactory.decodeResource(getResources(), R.drawable.qianming).getHeight()),
-                    new Rect(0, 0, width, height), mPaint);
-
-        }
     }
 
     public void setOnSignedListener(OnSignedListener listener) {

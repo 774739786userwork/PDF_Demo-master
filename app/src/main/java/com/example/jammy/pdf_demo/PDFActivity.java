@@ -87,8 +87,6 @@ public class PDFActivity extends Activity implements ScrollListener{
     @Bind(R.id.btn_screen)
     ImageView imgBtnSign;
 
-    @Bind(R.id.signView1)
-    VDHDeepLayout signView1;
     private TextView signCloseTv;
     private boolean isUpdate = false;
     private String in_path;
@@ -150,7 +148,6 @@ public class PDFActivity extends Activity implements ScrollListener{
 
     private void init(){
         socketMessage = (SocketMessage) getIntent().getSerializableExtra("sMessage");
-        Log.e("TAG", "init: 模板id::::::::::"+socketMessage.getFeature());
         in_path = Environment.getExternalStorageDirectory().getPath() + "/"+socketMessage.getId()+".pdf";
         out_path = in_path.substring(0, in_path.length() - 4) + "1.pdf";
         try {
@@ -188,11 +185,13 @@ public class PDFActivity extends Activity implements ScrollListener{
 
         tv_dialog_msg_text.setText("温馨提示！");
         tv_dialog_customer_text.setText("尊敬的客户：");
-        tv_dialog_text.setText("请按下方图例提示操作");
-        if (socketMessage.getFeature().equals("CONTRACT_DIGITIZATION")){
-            sign_image.setImageResource(R.drawable.icon_sign);
-        }else if (socketMessage.getFeature().equals("CHARGE_SIGNATURE")){
-            sign_image.setImageResource(R.drawable.icon_cus_sign);
+//        tv_dialog_text.setText("请按下方图例提示操作");
+        if (socketMessage.getFeature().equals("CHARGE_SIGNATURE")){
+            tv_dialog_text.setText("请在收款人区域签字！");
+//            sign_image.setImageResource(R.drawable.icon_sign);
+        }else{
+//            sign_image.setImageResource(R.drawable.icon_cus_sign);
+            tv_dialog_text.setText("请在签字区域签字！");
         }
 
         tv_dialog_go.setText("确定");

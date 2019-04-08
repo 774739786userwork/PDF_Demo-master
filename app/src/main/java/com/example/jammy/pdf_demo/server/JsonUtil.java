@@ -1,5 +1,4 @@
 package com.example.jammy.pdf_demo.server;
-import android.util.Log;
 
 import com.example.jammy.pdf_demo.user.SocketMessage;
 import org.json.JSONException;
@@ -23,7 +22,6 @@ public class JsonUtil {
                 message.setFeature(jsonObject.getString("feature"));
                 message.setFid(jsonObject.getString("fid"));
             }
-            Log.e("TAG", "parseJson: ===================="+jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

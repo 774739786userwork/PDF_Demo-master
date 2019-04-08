@@ -115,10 +115,10 @@ public class SavePdf {
             //设置图片对齐
             img.setAlignment(1);
             //设置Image图片大小，需要根据屏幕的分辨率，签名时PDF的放大比例来计算；还有就是当PDF开始显示的时候，这里已经做了一次缩放，
-            // 可以用 rectangle.getWidth() / (bitmap.getWidth() / 2)求得那个放大比   700
+            // 可以用 rectangle.getWidth() / (bitmap.getWidth() / 2)求得那个放大比
             // TODO: 2019/3/1 -------120
             img.scaleAbsolute(100 * 1.0f * density / 2 / scale * rectangle.getWidth() / (bitmap.getWidth() / 2),
-                    80 * 1.0f * density / 2 / scale * rectangle.getWidth() / (bitmap.getWidth() / 2));
+                    50 * 1.0f * density / 2 / scale * rectangle.getWidth() / (bitmap.getWidth() / 2));
             //设置image相对PDF左下角的偏移量，得到放大后位置相对于整个PDF的百分比再乘PDF的大小得到他的相对偏移位置
             Log.e("TAG", "PDF高度：：："+pa.getAsNumber(pa.size()-1).floatValue());
             writingPosition(img ,pa.getAsNumber(pa.size()-1).floatValue());
@@ -160,14 +160,17 @@ public class SavePdf {
         int pdfPatchY = MuPDFPageView.pdfPatchY;
         int pdfPatchWidth = MuPDFPageView.pdfPatchWidth;
         int pdfPatchHeight = MuPDFPageView.pdfPatchHeight;
-        float n = pdfPatchWidth*1.0f;
-        float m = pdfPatchHeight*1.0f;
+        float n = pdfPatchWidth * 1.0f;
+        float m = pdfPatchHeight * 1.0f;
         n = pdfSizeX/n;
         m = pdfSizeY/m;
         if(n == 1.0f){
             //pdf页面没有放大时的比例190
-            if(PDFActivity.y >= 900){
-                img.setAbsolutePosition(PDFActivity.x *2/4,pdfHigth-((PDFActivity.y+150)*2/4));
+            if (PDFActivity.y > 1000){
+                img.setAbsolutePosition(PDFActivity.x * 2/4,pdfHigth-((PDFActivity.y + 150) * 2/4));
+            }else if(PDFActivity.y >= 900){
+                float upSize = (float) 4.5;
+                img.setAbsolutePosition((PDFActivity.x + 220) * 2/4,pdfHigth-((PDFActivity.y + 0) * 2/upSize));
             }else if(PDFActivity.y <= 60){
                 img.setAbsolutePosition(PDFActivity.x*3/6,pdfHigth-150);
             }else{
